@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--0.Email相关的配置-->
+    <context:property-placeholder location="classpath:email.properties" />
+    <!--1.配置邮箱服务器用户名密码、发件人昵称-->
+        <bean id="authenticator" class="org.apache.commons.mail.DefaultAuthenticator">
+            <constructor-arg index="0" value="${email.userName}"/>
+            <constructor-arg index="1" value="${email.password}"/>
+        </bean>
+    <bean class="javax.mail.internet.InternetAddress">
+
+    </bean>
+    <!--配置纯文本Email-->
+        <bean class="org.apache.commons.mail.SimpleEmail">
+            <property name="hostName" value="${email.host}"></property>
+            <property name="smtpPort" value="${email.port}"></property>
+            <property name="authenticator" ref="authenticator"></property>
+        </bean>
+    <!--配置带附件的Email-->
+    <bean name="multiPartEmail" class="org.apache.commons.mail.MultiPartEmail" autowire="byName">
+        <property name="hostName" value="${email.host}"></property>
+        <property name="smtpPort" value="${email.port}"></property>
+        <property name="authenticator" ref="authenticator"></property>
+    </bean>
+
+    <!--配置Html的Email-->
+    <bean id="htmlEmail" class="org.apache.commons.mail.HtmlEmail" autowire="byName">
+        <property name="hostName" value="${email.host}"></property>
+        <property name="smtpPort" value="${email.port}"></property>
+        <property name="authenticator" ref="authenticator"></property>
+    </bean>
+
+
+</beans>

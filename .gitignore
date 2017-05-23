@@ -1,0 +1,7 @@
+#使用IDEA工具通常下列目录文件类型不需要进行版本控制
+#忽略target目录
+target
+#忽略.idea配置目录
+.idea
+#忽略*.iml目录
+*.iml

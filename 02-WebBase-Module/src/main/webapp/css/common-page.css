@@ -1,0 +1,22 @@
+.headBox{
+    text-align: center;
+}
+
+.leftBox{
+    float: left;
+    height: 400px;
+    width: 30%;
+    background: pink;
+}
+.centerBox{
+    float: left;
+    height: 400px;
+    width: 70%;
+    background: yellowgreen;
+}
+
+.footerBox{
+    height: 100px;
+    background: firebrick;
+    text-align: center;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--1.配置目标bean-->
+    <context:component-scan base-package="com.jxufe.xml.api"></context:component-scan>
+    <!--2.配置切面-->
+    <bean id="loggingAspect" class="com.jxufe.xml.aspect.LoggingAspect"></bean>
+    <bean id="validatorAspect" class="com.jxufe.xml.aspect.ValidatorAspect"></bean>
+    <!--3.配置AOP-->
+    <aop:config>
+        <aop:pointcut id="caculatorCut"
+                      expression="com.jxufe.xml.aspect.PointCutExpression.declareJointPointExpression()"></aop:pointcut>
+        <aop:aspect ref="loggingAspect" order="2">
+            <aop:before method="beforedMethod" pointcut-ref="caculatorCut"></aop:before>
+            <aop:after method="afterMethod" pointcut-ref="caculatorCut"></aop:after>
+            <aop:after-returning method="afterReturnMethod" pointcut-ref="caculatorCut" returning="result"></aop:after-returning>
+            <aop:after-throwing method="afterThrowMethod" pointcut-ref="caculatorCut" throwing="ex"></aop:after-throwing>
+        </aop:aspect>
+        <aop:aspect ref="validatorAspect" order="1">
+            <aop:before method="beforedMethod" pointcut-ref="caculatorCut"></aop:before>
+            <aop:after method="afterMethod" pointcut-ref="caculatorCut"></aop:after>
+            <aop:after-returning method="afterReturnMethod" pointcut-ref="caculatorCut" returning="result"></aop:after-returning>
+            <aop:after-throwing method="afterThrowMethod" pointcut-ref="caculatorCut" throwing="ex"></aop:after-throwing>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
