@@ -166,3 +166,24 @@ git commit -m 'update .gitignore'
 刘卜铷：拉取远程项目,创建分支coder_lbrhy并且进行，创建LiuBuRu.java文件进行远程推送
 
 黄  莹：拉取远程项目，切换到coder_lbrhy分支上，创建HuangYing.java文件并且进行远程推送
+
+
+
+37.删除远程上呗忽略的文件
+我向远程仓库提交了如下文件src/ pom.xml target/ WebContent/，发现没必要提交target目录。
+于是做了如下操作：
+git rm -r --cached target
+git commit -m "delete target/"
+git push origin master
+打开github看一下，target目录是不是没有提交了！
+如果想把target目录以后都不用提交，可以作如下
+
+ vi  .gitignore
+ #写入:
+ target/
+ #可以在.gitignore中写入我们不想提交的文件或目录
+ #保存退出
+ git add .gitignore
+ git commit -m "write .gitignore"
+ git push origin master
+以后就不会提交target目录了！

@@ -6,4 +6,4 @@ target
 #忽略*.iml目录
 *.iml
 #忽略根目录下所有/out目录
-/out
+out/
