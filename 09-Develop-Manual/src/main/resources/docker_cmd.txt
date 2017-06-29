@@ -1,0 +1,51 @@
+1.从远程仓库拉取指定版本
+docker pull [OPTIONS]name:[:TAG]
+docker pull hello-world:latest
+
+2.查看本地镜像
+dcoker images [OPTIONS] [RESPOSTORY[:TAG]]
+docker images hello-world:latest
+
+3.运行镜像，并且在镜像容器中传递参数执行命令
+docker run [OPTIONS] IMAGES[:TAG] [COMMAND] [ARG...]
+docker run hello-world
+docker pull hub.c.163.com/library/nginx:latest
+docker run -d hub.c.163.com/library/nginx
+
+4.查看容器信息
+docker ps
+CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS               NAMES
+25dbc7d6768b        hub.c.163.com/library/nginx   "nginx -g 'daemon ..."   35 minutes ago      Up 35 minutes       80/tcp              keen_sammet
+
+5.查看容器的输出信息
+docker logs keen_sammet
+
+6.停止容器
+docker stop keen_sammet
+
+7.开启容器
+docker start keen_samet
+
+8.将镜像保存为归档文件
+docker@default:~$ docker save -o hello-world.zip hello-world
+docker@default:~$ ls
+hello-world.zip
+
+9.在容器中执行命令
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
+10.运行容器，并且指定端口转发规则
+第一种方法（docker会给容器默认名称，通知指定端口转发规则）
+docker@default:/root# docker run -d -p 8080:80 hub.c.163.com/library/nginx
+807bbc054c4a146f3c16fa33f01cb259a12b202c680d1b60203d67e005863b3d
+docker@default:/root# docker ps
+CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS                  NAMES
+807bbc054c4a        hub.c.163.com/library/nginx   "nginx -g 'daemon ..."   7 seconds ago       Up 6 seconds        0.0.0.0:8080->80/tcp   blissful_blackwell
+第二种方法
+docker run -d -P hub.c.163.com/library/nginx
+第三种方法（采用随机端口转发规则，同时指定虚拟容器的名称为“liuburu”）
+docker run -dP --name liuburu hub.c.163.com/library/nginx:latest
+
+
+
+

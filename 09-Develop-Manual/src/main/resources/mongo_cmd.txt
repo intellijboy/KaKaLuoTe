@@ -1,0 +1,446 @@
+/**1.初始化数据*/
+var col1 = { "_id" : ObjectId("56066542ade2f21f36b0313a"), "title" : "PHP 教程", "description" : "PHP 是一种创建动态交互性站点的强有力的服务器端脚本语言。", "by" : "菜鸟教程", "url" : "http://www.runoob.com", "tags" : [ "php" ], "likes" : 200 }
+var col2 = { "_id" : ObjectId("56066549ade2f21f36b0313b"), "title" : "Java 教程", "description" : "Java 是由Sun Microsystems公司于1995年5月推出的高级程序设计语言。", "by" : "菜鸟教程", "url" : "http://www.runoob.com", "tags" : [ "java" ], "likes" : 150 }
+db.col.insert(col1);
+db.col.insert(col2);
+
+/**2.mongodb支持js中的语法，为刘卜铷对象增加10本books*/
+db.students.find();
+var books = new Array();
+for(var i=0;i<10;i++){
+  var book = new Object();
+  book.name = "book"+i;
+  book.price = i+10;
+  books.push(book);
+}
+db.students.update({"name":"刘卜铷"},{$set:{"books":books}},true,true);
+db.students.find();
+
+/**3.mongodb中的一些基本操作*/
+db.col.find();
+db.col.find().count();
+db.col.find().skip(1).sort({likes:-1});/*降序*/
+db.col.find().limit(2).sort({likes:-1});
+
+/*4.文档数组包含关系*/
+db.col.find({
+  "tags":{
+    $all:["mongodb","database"]
+    }
+  });
+/*5.类似于sql的IN操作*/
+db.col.find({"likes":{$in:[100,200]}});
+db.col.find({
+  "likes":{
+    $nin:[100,200]
+    }
+  });
+/**6.或操作*/
+db.col.find({
+		  $or:[
+		  		{"title":"MongoDB"},
+		  		{
+		  		  "likes":{$egt:150}
+		  		}
+		  		]
+		});
+/**7.查询不在某一范围的操作*/
+db.col.find({
+				$nor:[{
+					likes:100
+				},{
+					likes:200
+				}]
+			});
+/**8.查询集合中存在某个键的文档或不存在某个键的文档*/
+db.col.find({
+				title:{$exists:1},
+				likes:{$exists:1}
+			});
+db.col.find({
+				title:{$exists:-1}
+			});			
+/**9.mongodb中的呃游标*/			
+var cursor = db.col.find();
+cursor.next();
+
+/**10.mongodb中db.collection.update(criteria,objNew,upsert,multi)更新操作
+*/
+//正确使用方法
+db.col.update({title:"MongoDB"},{$set:{title:"MongoDB数据库"}},false,true);
+//错误使用方法:因为这样会覆盖掉之前的树形，还有就是只会更新第一条查询出来的数据
+db.books.insert({_id:101,name:"金瓶梅",price:56})
+db.books.find();
+db.books.update({_id:101},{name:"新西游记"})
+
+/**11.根据_id让likes增加10*/
+db.col.find({_id:ObjectId("58d094b9e5cb223b59c9caf1")});
+db.col.update(
+			{_id:ObjectId("58d094b9e5cb223b59c9caf1")},
+			{
+			  $inc:{likes:10}
+			}
+			);
+/**12.$set用来指定一个键的值，如果这个键不存在，则创建它*/
+db.col.find();
+//增加price列
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$set:{"price":100}}
+			);
+//修改price列
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$set:{"price":200}}
+			);
+//修改price列的数据类型
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$set:{"price":[100,200,300,400]}}
+			);						
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$unset:{"company":100}}
+			);
+/**12.$push用来增加数组。若没有改列，则会自动增加*/
+//增加company列，
+db.col.find();
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$push:{company:"sun"}}
+			);
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$push:{company:"qq"}}
+			);		
+//push添加重复元素,添加成功，不会检查,如须要排除重复元素，则添加时候需使用$addToSet		
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$push:{company:"sun"}}
+			);		
+
+/**13.$addToSet：push操作不会检查数组中元素是否重复，如果需要将不重复的数据加入数组，需要使用$addToSet*/
+
+db.col.find();
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$addToSet:{company:"oracle"}}
+			);
+//重复数据不能够插入
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$addToSet:{company:"qq"}}
+			);
+			
+/**14.通过$pop可以从数组中移除数据。此时数据被看成是一个队列。使用{$pop:{key:1}}将从队列末尾移除元素，使用{$pop:{key:-1}}将从队列开头移除元素*/	
+db.col.find();
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$pop:{company:1}}
+			);
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$pop:{company:-1}}
+			);
+				
+/**15.$pull:除了 $pop，也可以使用 $pull 来删除数组中的元素，此时可以根据元素值进行匹配，将匹配上的元素全部删除*/
+db.col.find();
+db.col.update(
+				{_id:ObjectId("58d094b9e5cb223b59c9caf1")}
+				,{$pull:{company:"sun"}}
+			);
+
+/**16.索引:http://www.jb51.net/article/78111.htm(介绍得很全面)*/	
+//修改列属性名称
+db.user.update({}, {$rename : {"name" : "username"}}, false, true)
+
+//插入100000万条数据进行测试
+for(var i=0;i<100000;i++){
+  db.user.insert({
+  		name:"username"+i,
+  		age:Math.round(18+Math.random()*50)
+  });
+}
+//查看数据	
+db.user.find().count();
+
+//没有创建索引时候，查看执行效率
+//db.user.find({name:"name1234"}).explain(); 没有执行计划数据，需要加上参数db.user.find({name:"name1234"}).explain
+
+db.user.find({username:"name1234"}).explain("executionStats").executionStats;//结果1：{"executionTimeMillis" : 121,"totalDocsExamined" : 100000}
+
+//创建索引并且命名为index_username
+db.user.ensureIndex({username:1},{"name":"index_username"});
+db.user.dropIndex({name:1});
+//db.user.ensureIndex({name:1},{backgroud:true});  貌似无效
+
+//查看集合索引
+db.user.getIndexes();
+
+//查看数据库索引
+db.test.getIndexes();
+
+//创建索引时候进行
+db.user.find({username:"name1234"}).explain("executionStats").executionStats;//结果2：{"executionTimeMillis" : 0,"totalDocsExamined" : 1}
+
+//创建复合索引
+db.user.ensureIndex({age:1,username:1},{"name":"index_age_username"});
+db.user.ensureIndex({username:1,age:1},{"name":"index_username_age"});
+
+//单值查询（借助索引）
+db.user.find({age:50}).hint({_id:1}).explain("executionStats").executionStats;//结果3：{"executionTimeMillis" : 242,"totalDocsExamined" : 100000} 略慢,默认按照索引_id
+db.user.find({age:50}).hint({age:1,username:1}).explain("executionStats").executionStats;//结果4：{"executionTimeMillis" : 6,"totalDocsExamined" : 1944} 快十倍 ,hint：按照指定索引查询
+db.user.find({age:50}).hint({username:1,age:1}).explain("executionStats").executionStats;//结果5：{"executionTimeMillis" : 311,"totalDocsExamined" : 100000} 此时不会使用索引来进行查询，所以小路与_id查询差不多，甚至更费时间
+
+//多值查询
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).explain("executionStats").executionStats;//结果6：{"executionTimeMillis" : 66,"totalDocsExamined" : 20121} 默认的会只能选择最快的索引
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).hint({_id:1}).explain("executionStats").executionStats;//结果7：{"executionTimeMillis" : 398,"totalDocsExamined" : 100000} _id索引进行哈讯
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).hint({age:1,username:1}).explain("executionStats").executionStats;//结果8：{"executionTimeMillis" : 76,"totalDocsExamined" : 20121} 
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).hint({username:1,age:1}).explain("executionStats").executionStats;//结果9：{"executionTimeMillis" : 249,"totalDocsExamined" : 100000} 
+
+//如果有返回结果的话在讨论分析(使用limit进行返回)
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).limit(100).hint({age:1,username:1}).explain("executionStats").executionStats;//结果10：{"executionTimeMillis" : 0,"totalDocsExamined" : 100} 
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).limit(100).hint({username:1,age:1}).explain("executionStats").executionStats;//结果11：{"executionTimeMillis" : 1,"totalDocsExamined" : 500} 
+
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).sort({username:1}).limit(100).hint({age:1,username:1}).explain("executionStats").executionStats;//结果11：{"executionTimeMillis" : 79,"totalDocsExamined" : 20121} 
+db.user.find({'age': {"$gte": 21, "$lte": 30}}).sort({username:1}).limit(100).hint({username:1,age:1}).explain("executionStats").executionStats;//结果12：{"executionTimeMillis" : 2,"totalDocsExamined" : 502} //sort,limit执行效率更高
+
+
+/**16.地理位置索引*/
+//创建测试数据
+db.mapinfo.insert({"address" : "南京 禄口国际机场","loc" : { "type": "Point", "coordinates": [118.783799,31.979234]}});
+ db.mapinfo.insert({"address" : "南京 浦口公园","loc" : { "type": "Point", "coordinates": [118.639523,32.070078]}});
+ db.mapinfo.insert({"address" : "南京 火车站","loc" : { "type": "Point", "coordinates": [118.803032,32.09248]}});
+ db.mapinfo.insert({"address" : "南京 新街口","loc" : { "type": "Point", "coordinates": [118.790611,32.047616]}});
+ db.mapinfo.insert({"address" : "南京 张府园","loc" : { "type": "Point", "coordinates": [118.790427,32.03722]}});
+ db.mapinfo.insert({"address" : "南京 三山街","loc" : { "type": "Point", "coordinates": [118.788135,32.029064]}});
+ db.mapinfo.insert({"address" : "南京 中华门","loc" : { "type": "Point", "coordinates": [118.781161,32.013023]}});
+ db.mapinfo.insert({"address" : "南京 安德门","loc" : { "type": "Point", "coordinates": [118.768964,31.99646]}});
+ 
+//创建地理位置索引（未创建2d索引时，不可以使用$near进行查询）
+db.mapinfo.ensureIndex( { loc : "2dsphere" } );
+
+//检索规定半径5000米以内数据（单位为米）
+db.mapinfo.find({
+    "loc": {
+        "$near": 
+        {
+            "$geometry": 
+            {
+                "type": "Point",
+                "coordinates": [118.783799,31.979234]
+           	},
+            "$maxDistance": 5000
+        }
+    		}
+}).limit(50); 
+
+//2d默认取值范围[-179,-179]到[180,180] 包含这两个点，超出范围将报错
+ db.mapinfo.insert({
+    "address": "南京 安德门",
+    "loc": {
+        "type": "Point",
+        "coordinates": [
+            182.768964,
+            31.99646
+        ]
+    }
+});
+
+/**17.固定集合
+	capped:true 是否为固定集合
+	size:100	100kb
+	max:100		最多100个文档集合
+*/
+
+//创建固定集合:size:100 B max:10 个文档对象
+/**
+1.当指定文档数量上限时，必须同时指定大小。淘汰机制只有在容量还没有满时才会依据文档数量来工作。要是容量满了，淘汰机制会依据容量来工作；
+2.可以插入及更新,但更新不能超出collection的大小,否则更新失败,不允许删除,但是可以调用drop()删除集合中的所有行,但是drop后需要显式地重建集合
+3.不能固定集合中的文档
+4.虽然读文件MongoDB刚刚返回相同的顺序文件在于磁盘上。这使得读取操作速度非常快
+*/
+
+//将size设为50 500 5000，验证第一句话，固定集合是在容量还未满时，才会依据文档数进行操作的
+db.createCollection("fixedsize",{capped:true,size:50000,max:500});  
+for(var i=1;i<=500;i++){
+  	var stu = new Object();
+  	stu.name = "stuName"+i;
+  	stu.age = Math.round(18+Math.random()*50);
+  	db.fixedsize.insert(stu);
+}
+
+//创建固定集合
+db.createCollection("fixedcol",{capped:true,size:2,max:5000});  
+
+//检验是否为固定集合
+db.fixedcol.isCapped()
+
+//插入数据（发现只有前五条记录被插入了）
+for(var i=1;i<=500;i++){
+  	var stu = new Object();
+  	stu.name = "stuName"+i;
+  	stu.age = Math.round(18+Math.random()*50);
+  	db.fixedcol.insert(stu);
+}
+
+db.fixedcol.find().count();
+
+//发现最后一条记录进入，最先的一条数据移出，先进先出，类似于队列
+var stu = new Object();
+stu.name = "TestStudent";
+stu.age = Math.round(18+Math.random()*50);
+db.fixedcol.insert(stu);
+
+//将已存在的集合转化为固定集合
+db.runCommand({"convertToCapped":"posts",size:10000})
+
+
+//删除文档（删除失败）
+db.fixedcol.find({name:"liuburu"});
+db.fixedcol.remove({name:"liuburu"});//cannot remove from a capped collection: test.fixedcol
+
+//删除固定集合				
+db.fixedcol.drop();
+
+
+/**18.备份和恢复*/
+//备份mongodump -h dbhost -d dbname -o dbdirectory
+
+//下面命令需要在H:\mongodb\bin目录下执行，不需要连接mongodb服务
+//会生成一些bson文件
+//备份操作如下
+mongodump -h 127.0.0.1:27017 -d test -o D:/Mongo脚本/dump
+
+//恢复命令
+mongorestore -h 127.0.0.1:27017 -d restoreDB  D:/Mongo脚本/dump/demo
+
+
+/**18.导入和导出（能够看见json数据）*/
+//导出数据
+mongoexport -h 127.0.0.1:27017 -d test -c col -o D:/Mongo脚本/dump/user.json
+
+//导入数据
+mongoimport -h 127.0.0.1:27017 -d test -c col5 D:/Mongo脚本/dump/user.json 
+
+
+/**19.安全认证  http://bbs.51cto.com/thread-1146654-1.html*/
+
+/**
+	1. 数据库用户角色：read、readWrite;
+    2. 数据库管理角色：dbAdmin、dbOwner、userAdmin；
+    3. 集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager；
+    4. 备份恢复角色：backup、restore；
+    5. 所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
+    6. 超级用户角色：root  
+    // 这里还有几个角色间接或直接提供了系统超级用户的访问（dbOwner 、userAdmin、userAdminAnyDatabase）
+    7. 内部角色：__system
+    PS：关于每个角色所拥有的操作权限可以点击上面的内置角色链接查看详情。
+*/
+
+//创建管理员root用户，
+db.createUser({
+    "user": "liuburu",
+    "pwd": "liuburu",
+    "roles": [
+        "readWriteAnyDatabase"
+    ]
+})
+
+//开启权限验证
+mongod --config h:/mongodb/mongo.config --auth
+
+//管理员验证登陆，方法一
+mongo admin -u root -p liuburu
+
+//管理员验证登陆，防范二
+mongo
+user admin
+db.auth("root","liubru");
+
+
+//创建普通用户
+ 	
+user col;
+use admin;
+db.auth("root","liuburu");
+db.createUser( {
+    "user": "hy",
+    "pwd": "hy",
+    "customData": {
+        "message": "test数据库得读写操作"
+    },
+    "roles": [
+      "readWrite"
+    ]
+})
+
+db.createUser( {
+    "user": "lbr",
+    "pwd": "lbr",
+    "customData": {
+        "message": "test数据库得读操作"
+    },
+    "roles": [
+      "read"
+    ]
+})
+
+db.createUser( {
+    "user": "test",
+    "pwd": "test",
+    "customData": {
+        "message": "test数据库得读操作"
+    },
+    "roles": [
+      "read"
+    ]
+})
+
+
+use test;
+db.auth("reader","reader");
+db.books.find().pretty();
+db.col.find().pretty();
+db.user.find().pretty();
+db.user.insert(
+	{
+	"age" : 100,
+	"username" : "name100"
+	}
+);
+db.auth("writer","writer");
+db.user.insert(
+	{
+	"age" : 100,
+	"username" : "name100"
+	}
+);
+db.user.find({username:"name100"});
+
+db.auth("rwer","rwer");
+
+db.user.insert(
+	{
+	"age" : 1001,
+	"username" : "name101"
+	}
+);
+db.user.find({username:"name101"})
+use foo;
+show users;
+db.auth("rwer","rwer");
+db.stu.find();
+use admin
+db.auth("dba","dba")
+show users;
+
+
+/*Mongodb 集群*/
+
+
+
+
+
+
+

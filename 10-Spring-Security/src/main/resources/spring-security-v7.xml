@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <!--
+        1.初尝把角色、权限通过数据库进行保存
+        2.rememberme功能测试，其中发现设置cookie名字属性无效
+    -->
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler"
+                class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler"
+                class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+
+    <http auto-config="false" use-expressions="false" access-denied-page="/denied.jsp">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/expireed.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
+        <logout logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+
+        <!--
+        cookie记住我过期时间为30s，其中指定前端请求参数为remember而不是默认的_spring_security_remember_me
+        缺点：存在安全隐患，如果cookie信息被窃取，那么他人就可以进行模拟登陆
+        -->
+        <remember-me token-validity-seconds="86400" key="ceshi"/>
+
+
+    </http>
+
+    <!-- 用于认证的 AuthenticationManager -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider
+                user-service-ref="myUserDetailService"/>
+    </authentication-manager>
+
+    <!--使用userDetailsService自定义provider-->
+    <beans:bean id="myUserDetailService"
+                class="com.jxufe.security.service.MyUserDetailService">
+    </beans:bean>
+</beans:beans>

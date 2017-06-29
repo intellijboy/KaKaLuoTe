@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <!--
+        概念思路：登录认证的时候 Spring Security 会通过 UserDetailsService 的
+         loadUserByUsername() 方法获取对应的 UserDetails 进行认证，认证通过后
+         会将该 UserDetails 赋给认证通过的 Authentication 的 principal，然后
+         再把该 Authentication 存入到 SecurityContext 中。之后如果需要使用用户
+         信息的时候就是通过 SecurityContextHolder 获取存放在 SecurityContext
+          中的 Authentication 的 principal。
+        测试内容：
+           1.测试使用Spring Security默认提供的userDetailsService实现权限验证
+                步骤：1.配置数据源  2.配置userDetailsService 3.配置authenticationManager
+           2.测试注销功能
+           3.无权访问页面跳转：access-denied-page
+    -->
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler"
+                class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler" class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+
+    <http auto-config="false" use-expressions="false" access-denied-page="/denied.jsp">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
+        <logout logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+    </http>
+
+    <!-- 用于认证的 AuthenticationManager -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider
+                user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsService"
+                class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <beans:property name="dataSource" ref="dataSource"/>
+    </beans:bean>
+
+    <!--
+    <authentication-manager>
+            <authentication-provider>
+                <user-service>
+                    <user name="user" password="user" authorities="ROLE_USER"/>
+                    <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
+                </user-service>
+            </authentication-provider>
+    </authentication-manager>
+     -->
+</beans:beans>

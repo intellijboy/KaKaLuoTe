@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1.使用properties配置属性值-->
+    <!--
+    <properties>
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"></property>
+        <property name="username" value="scott"></property>
+        <property name="password" value="123456"></property>
+    </properties>
+    -->
+
+<!--    <properties>
+        <property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"></property>
+        <property name="username" value="scott"></property>
+        <property name="password" value="123456"></property>
+    </properties>-->
+
+    <!--
+        2.先读取properties节点属性，在读取配置文件属性，如果有相同属性
+        则后者会属性值会替换前置。
+    -->
+    <properties resource="jdbc-mybatis.properties">
+        <property name="org.apache.ibatis.parsing.PropertyParser.enable-default-value" value="true"/>
+<!--        <property name="username" value="scottttt"/>
+        <property name="password" value="123456789"/>-->
+    </properties>
+
+    <!--
+        3.MyBatis 中极为重要的调整设置,以下基本上是默认属性
+        主要设置：useColumnLabel，useGeneratedKeys，mapUnderscoreToCamelCase
+
+    -->
+    <settings>
+        <!--缓存的全局开关-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--延迟加载的全局开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <!--使用列标签代替列名-->
+        <setting name="useColumnLabel" value="true"/>
+        <!--允许 JDBC 支持自动生成主键-->
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <!--设置超时时间，它决定驱动等待数据库响应的秒数-->
+        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="defaultFetchSize" value="100"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <!--是否开启自动驼峰命名规则-->
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="org\mybatis\example\dao\EmployMapper.xml"/>
+    </mappers>
+</configuration>

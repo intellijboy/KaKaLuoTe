@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!--
+    -->
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler"
+                class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler"
+                class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+
+    <http auto-config="true" use-expressions="false" access-denied-page="/denied.jsp">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/expireed.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+      <!--  <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
+        <intercept-url pattern="/admin/index" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/query" access="ROLE_ADMIN_QUERY"/>
+        <intercept-url pattern="/admin/create" access="ROLE_ADMIN_CREATE"/>
+        <intercept-url pattern="/admin/delete" access="ROLE_ADMIN_DELETE"/>
+        <intercept-url pattern="/admin/update" access="ROLE_ADMIN_UPDATE"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
+        <logout logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+        <remember-me token-validity-seconds="86400" key="ceshi"/>
+
+        <session-management invalid-session-url="/login.jsp" session-fixation-protection="migrateSession">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/expireed.jsp"/>
+        </session-management>
+
+        <custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+    </http>
+
+
+
+    <!--自定义SecurityFilter-->
+    <beans:bean id="mySecurityFilter" class="com.jxufe.security.filter.MySecurityFilter">
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource"></beans:property>
+        <beans:property name="accessDecisionManager" ref="myaccessDecisionManager"></beans:property>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+    </beans:bean>
+
+    <!--自定义securityMetadataSource-->
+    <beans:bean id="securityMetadataSource" class="com.jxufe.security.manager.MySecurityMetadataSource">
+        <beans:property name="functionRoleService" ref="functionRoleServiceIml"></beans:property>
+    </beans:bean>
+    <!--自定义accessDecisionManager-->
+    <beans:bean id="myaccessDecisionManager" class="com.jxufe.security.manager.MyaccessDecisionManager">
+    </beans:bean>
+    <!-- 用于认证的 AuthenticationManager -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider
+                user-service-ref="myUserDetailService"/>
+    </authentication-manager>
+    <beans:bean id="myUserDetailService"
+                class="com.jxufe.security.service.MyUserDetailService">
+        <beans:property name="userService" ref="userServiceIml"></beans:property>
+    </beans:bean>
+
+
+</beans:beans>

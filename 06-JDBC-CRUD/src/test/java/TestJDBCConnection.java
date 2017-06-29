@@ -16,6 +16,7 @@ public class TestJDBCConnection {
 
     /**
      * 获取数据库连接的方法
+     *
      * @return
      * @throws IOException
      * @throws ClassNotFoundException
@@ -91,7 +92,6 @@ public class TestJDBCConnection {
     }
 
 
-
     /**
      * 2 使用DriverManager类获取数据库连接
      */
@@ -114,13 +114,13 @@ public class TestJDBCConnection {
         Statement statement = connection.createStatement();
         String sname = "刘卜铷";
         String password = "123456";
-        String sql = "select studentid,sname,age from student WHERE sname='"+sname+"' AND password='"+password+"'";
-        System.out.println("执行sql:"+sql);
+        String sql = "select studentid,sname,age from student WHERE sname='" + sname + "' AND password='" + password + "'";
+        System.out.println("执行sql:" + sql);
         ResultSet resultSet = statement.executeQuery(sql);
-        while (resultSet.next()){
-            System.out.println("编号:"+resultSet.getInt("studentid")+
-            "   姓名:"+resultSet.getString("sname")+
-            "   年龄:"+resultSet.getInt("age"));
+        while (resultSet.next()) {
+            System.out.println("编号:" + resultSet.getInt("studentid") +
+                    "   姓名:" + resultSet.getString("sname") +
+                    "   年龄:" + resultSet.getInt("age"));
         }
         connection.close();
     }
@@ -134,13 +134,13 @@ public class TestJDBCConnection {
         Statement statement = connection.createStatement();
         String sname = "刘卜铷";
         String password = "xxxxxx' OR '1'='1";//该语句的拼接能使之前的条件限定无效
-        String sql = "SELECT studentid,sname,age FROM student WHERE sname='"+sname+"' AND password='"+password+"'";
-        System.out.println("==>sql:"+sql);
+        String sql = "SELECT studentid,sname,age FROM student WHERE sname='" + sname + "' AND password='" + password + "'";
+        System.out.println("==>sql:" + sql);
         ResultSet resultSet = statement.executeQuery(sql);
-        while (resultSet.next()){
-            System.out.println("编号:"+resultSet.getInt("studentid")+
-                    "   姓名:"+resultSet.getString("sname")+
-                    "   年龄:"+resultSet.getInt("age"));
+        while (resultSet.next()) {
+            System.out.println("编号:" + resultSet.getInt("studentid") +
+                    "   姓名:" + resultSet.getString("sname") +
+                    "   年龄:" + resultSet.getInt("age"));
         }
         connection.close();
     }
@@ -154,38 +154,39 @@ public class TestJDBCConnection {
         String sname = "刘卜铷";
         String password = "123456";//试图拼装sql语句
         //String password = "xxxxxx OR 1=1";//试图拼装sql语句(无效，会把OR当成一个字符串内容)
-      //  String sql = "SELECT studentid,sname,age FROM student WHERE sname=? AND password = ?";
+        //  String sql = "SELECT studentid,sname,age FROM student WHERE sname=? AND password = ?";
         String sql = "SELECT studentid id,sname stuName,password,age FROM student WHERE studentid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setObject(1,10086);
+        preparedStatement.setObject(1, 10086);
         //preparedStatement.setObject(2,password);//试图注入sql语句
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
-            System.out.println("编号:"+resultSet.getInt("id")+
-                    "   姓名:"+resultSet.getString("stuName")+
-                    "   年龄:"+resultSet.getInt("age"));
+        while (resultSet.next()) {
+            System.out.println("编号:" + resultSet.getInt("id") +
+                    "   姓名:" + resultSet.getString("stuName") +
+                    "   年龄:" + resultSet.getInt("age"));
         }
         connection.close();
     }
 
-    /**\
+    /**
+     * \
      * 4.1 添加操作
      */
     @Test
     public void testAdd() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, IOException {
-        String studentid="55555";
+        String studentid = "55555";
         String sname = "王老五";
         String password = "123456";
         String age = "33";
         Connection connection = getConnection();
         String sql = "INSERT INTO student(studentid,sname,password,age) VALUES (?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1,studentid);
-        preparedStatement.setString(2,sname);
-        preparedStatement.setString(3,password);
-        preparedStatement.setString(4,age);
+        preparedStatement.setString(1, studentid);
+        preparedStatement.setString(2, sname);
+        preparedStatement.setString(3, password);
+        preparedStatement.setString(4, age);
         int resultRows = preparedStatement.executeUpdate();
-        System.out.println("插入影响结果rows:"+resultRows);
+        System.out.println("插入影响结果rows:" + resultRows);
         connection.close();
     }
 
@@ -198,9 +199,9 @@ public class TestJDBCConnection {
         Connection connection = getConnection();
         String sql = "DELETE FROM student where studentid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1,studentid);
+        preparedStatement.setString(1, studentid);
         int resultRows = preparedStatement.executeUpdate();
-        System.out.println("删除影响结果rows:"+resultRows);
+        System.out.println("删除影响结果rows:" + resultRows);
         connection.close();
     }
 
@@ -214,45 +215,56 @@ public class TestJDBCConnection {
         Connection connection = getConnection();
         String sql = "UPDATE student SET sname=? WHERE studentid = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1,sname);
-        preparedStatement.setString(2,studentid);
+        preparedStatement.setString(1, sname);
+        preparedStatement.setString(2, studentid);
         int resultRows = preparedStatement.executeUpdate();
-        System.out.println("更新影响结果rows:"+resultRows);
+        System.out.println("更新影响结果rows:" + resultRows);
         connection.close();
     }
 
     /**
-     *5 获取元数据
+     * 5 获取元数据
      */
     @Test
     public void testMetaData() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, IOException {
         Connection connection = getConnection();
-       // String sql = "SELECT studentid id,sname name,password,age FROM student";
+        // String sql = "SELECT studentid id,sname name,password,age FROM student";
         String sql = "SELECT s.sname stuName,c.cname couName,sc.score FROM student s,course c,score sc WHERE s.studentid=sc.studentid AND c.courseid=sc.courseid AND sc.score>?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        System.out.println("preparedStatement metadata:"+ preparedStatement.getMetaData());
+        System.out.println("preparedStatement metadata:" + preparedStatement.getMetaData());
 
-        preparedStatement.setObject(1,90);
+        preparedStatement.setObject(1, 90);
         System.out.println("****************************表中的数据begin*****************************");
         ResultSet rs = preparedStatement.executeQuery();
-        System.out.println("preparedStatement metadata:"+ rs.getMetaData());
-        while(rs.next()){
-            System.out.println(rs.getString("stuName")+"  "+rs.getString("couName")+"   "+rs.getFloat("score"));
+        System.out.println("preparedStatement metadata:" + rs.getMetaData());
+        while (rs.next()) {
+            System.out.println(rs.getString("stuName") + "  " + rs.getString("couName") + "   " + rs.getFloat("score"));
         }
         System.out.println("****************************表中的数据end*****************************");
         ResultSetMetaData resultSetMetaData = preparedStatement.getMetaData();
-        System.out.println("返回此 ResultSet 对象中的列数:"+resultSetMetaData.getColumnCount());
-        System.out.println("获取指定列的名称getColumnName:"+resultSetMetaData.getColumnName(1));
-        System.out.println("指定列的建议标题getColumnLabel:"+resultSetMetaData.getColumnLabel(1));
-        System.out.println("获取指定列的表明称getTableName:"+resultSetMetaData.getTableName(1));
-        System.out.println("获取指定列的表明称getTableName:"+resultSetMetaData.getTableName(2));
-        System.out.println("获取指定列的表目录名称getCatalogName:"+resultSetMetaData.getCatalogName(1));
+        System.out.println("返回此 ResultSet 对象中的列数:" + resultSetMetaData.getColumnCount());
+        System.out.println("获取指定列的名称getColumnName:" + resultSetMetaData.getColumnName(1));
+        System.out.println("指定列的建议标题getColumnLabel:" + resultSetMetaData.getColumnLabel(1));
+        System.out.println("获取指定列的表明称getTableName:" + resultSetMetaData.getTableName(1));
+        System.out.println("获取指定列的表明称getTableName:" + resultSetMetaData.getTableName(2));
+        System.out.println("获取指定列的表目录名称getCatalogName:" + resultSetMetaData.getCatalogName(1));
         List<String> columnNames = new ArrayList<String>();
-        for(int i=1;i<=resultSetMetaData.getColumnCount();i++){
+        for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
             columnNames.add(resultSetMetaData.getColumnLabel(i));
         }
-        System.out.println("查询列的别名集合:"+columnNames);
+        System.out.println("查询列的别名集合:" + columnNames);
         connection.close();
+    }
+
+
+    @Test
+    public void testOracleConnection() throws Exception {
+        String url = "jdbc:oracle:thin:@127.0.0.1:1521:orcl";
+        String user = "leaf_portal";//leaf_basic,leaf_share,leaf_biz
+        String password = "leaf_portal";
+        java.sql.Connection connection;
+        connection = DriverManager.getConnection(url, user, password);
+        System.out.println(connection);
     }
 
 }

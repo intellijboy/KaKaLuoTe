@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!--
+       1.测试spring security session单用户登陆功能
+    -->
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler"
+                class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler"
+                class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+
+    <http auto-config="true" use-expressions="false" access-denied-page="/denied.jsp">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/expireed.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
+        <logout logout-success-url="/login.jsp" delete-cookies="JSESSIONID"/>
+        <remember-me token-validity-seconds="86400" key="ceshi"/>
+        <!--
+         注意：该配置无法生效的原因很可能是没有重写SecurityUser的equals和hashcode方法
+         error-if-maximum-exceeded: 如果达到max-session，则是否需要抛出异常。默认false，表示不抛出异常，
+         达到max-session时候会把之前的挤下去；设置为true时候，达到最大值时抛出异常。
+         -->
+<!--        <session-management invalid-session-url="/login.jsp" session-fixation-protection="migrateSession">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/expireed.jsp"/>
+        </session-management>-->
+<!--
+        <session-management session-authentication-strategy-ref="concurrentSessionControlStrategy"/>
+-->
+    </http>
+    <!--spring session依赖bean配置开始-->
+<!--    <beans:bean id="concurrentSessionControlStrategy"
+                class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <beans:constructor-arg name="sessionRegistry" ref="sessionRegistry"/>
+        <beans:property name="maximumSessions" value="1"></beans:property>
+    </beans:bean>
+    <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"/>-->
+    <!--spring session依赖bean配置结束-->
+
+    <!-- 用于认证的 AuthenticationManager -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider
+                user-service-ref="myUserDetailService"/>
+    </authentication-manager>
+
+    <!--使用userDetailsService自定义provider-->
+    <beans:bean id="myUserDetailService"
+                class="com.jxufe.security.service.MyUserDetailService">
+    </beans:bean>
+
+
+</beans:beans>

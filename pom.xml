@@ -40,6 +40,7 @@
         <tglib.version>1.1.2</tglib.version>
 
         <!--spring依赖和springMVC相关依赖-->
+      <!--  <spring.version>3.1.1.RELEASE</spring.version>-->
         <spring.version>4.3.3.RELEASE</spring.version>
         <jackson.version>2.8.1</jackson.version>
 
@@ -55,6 +56,11 @@
         <module>04-Hibernate-Validator</module>
         <module>05-Spring-AOP</module>
         <module>06-JDBC-CRUD</module>
+        <module>07-Java8-Module</module>
+        <module>08-Mybatis-Basic</module>
+        <module>09-Develop-Manual</module>
+        <module>10-Spring-Security</module>
+        <module>10-Spring-Security3.1</module>
     </modules>
     <build>
         <finalName>${project.artifactId}</finalName>

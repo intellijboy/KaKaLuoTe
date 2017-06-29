@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 需要和接口所在的全类名保持一致-->
+<mapper namespace="org.mybatis.example.dao.EmployMapper">
+    <select id="selectEmploy" resultType="org.mybatis.example.bean.Employ">
+        select * from emp where empno = #{empno}
+    </select>
+
+</mapper>

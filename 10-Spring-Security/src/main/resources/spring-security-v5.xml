@@ -1,0 +1,50 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--
+        测试内容：
+            1.用户验证通过authentication-success-handler-ref
+            2.用户验证事变authentication-fail-handler-ref
+    -->
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler" class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler" class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+
+    <http auto-config="true" use-expressions="false">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
+        <logout/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <!--
+            这些用户信息都放在内存中InMemoryDaoImpl为其实现类，
+            主要是测试用的。
+            -->
+            <user-service>
+                <user name="user" password="user" authorities="ROLE_USER"/>
+                <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

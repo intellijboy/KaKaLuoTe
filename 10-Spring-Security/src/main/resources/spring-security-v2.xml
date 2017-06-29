@@ -1,0 +1,56 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+    <!--1.放行的URL-->
+ <!--   <http security="none" pattern="/login.jsp"/>
+    <http security="none" pattern="/portal.jsp"/>-->
+    <http auto-config="true" use-expressions="false">
+        <!--
+           2.放行的URL
+         <intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+         <intercept-url pattern="/**" access="ROLE_USER"></intercept-url>
+       -->
+        <!--3.弹窗登陆验证-->
+       <!-- <http-basic/>-->
+        <!--4.URL过滤规则,需要注意匹配顺序-->
+        <!--<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>-->
+
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+
+        <!--
+          测试结果：
+            1.默认登陆界面为login.jsp
+            2.登陆处理URL为/security/login
+            3.表单用户名为username
+            4.表单密码为password
+            5.表单验证失败页面/login.jsp?error=errorMsg
+        -->
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    default-target-url="/security/success"
+                    authentication-failure-url="/login.jsp?error=%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E9%AA%8C%E8%AF%81%E5%A4%B1%E8%B4%A5"
+        />
+        <logout/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <!--使用配置文件配置权限-->
+           <!-- <user-service properties="classpath:conf/users.properties"/>-->
+            <user-service>
+                <user name="user" password="user" authorities="ROLE_USER"/>
+                <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

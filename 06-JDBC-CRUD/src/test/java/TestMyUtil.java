@@ -15,7 +15,7 @@ public class TestMyUtil {
     @Test
     public void testQuery() {
         String sql = "select stuId id,name,age,sex,motto from student";
-        List<Student> students = JDBCUtil.queryList(Student.class, sql, null);
+        List<Student> students = JDBCUtil.queryList(Student.class, sql);
         for (Student student : students) {
             System.out.println(student);
         }
