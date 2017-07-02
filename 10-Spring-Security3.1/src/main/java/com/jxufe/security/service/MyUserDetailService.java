@@ -1,17 +1,14 @@
 package com.jxufe.security.service;
 
-import com.jxufe.dao.UserMapper;
 import com.jxufe.security.vo.SecurityUser;
 import com.jxufe.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +39,7 @@ public class MyUserDetailService implements UserDetailsService {
     private void obtainAuthorities(SecurityUser securityUser) {
         System.out.println();
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        List<String> stringList = userService.selRoleInfoByName(securityUser.getUsername());
+        List<String> stringList = userService.selectRoleInfoByName(securityUser.getUsername());
         for (String roleName : stringList) {
             authorityList.add(new SimpleGrantedAuthority(roleName));
         }

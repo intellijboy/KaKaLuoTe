@@ -61,6 +61,7 @@
         <module>09-Develop-Manual</module>
         <module>10-Spring-Security</module>
         <module>10-Spring-Security3.1</module>
+        <module>11-Mybatis-Geneator</module>
     </modules>
     <build>
         <finalName>${project.artifactId}</finalName>

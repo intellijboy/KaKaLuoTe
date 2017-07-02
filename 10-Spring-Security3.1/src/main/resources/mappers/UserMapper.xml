@@ -3,7 +3,7 @@
 <mapper namespace="com.jxufe.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.jxufe.security.vo.SecurityUser">
         <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="name" jdbcType="VARCHAR" property="username"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="age" jdbcType="INTEGER" property="age"/>
@@ -13,7 +13,7 @@
         <result column="enabled" jdbcType="INTEGER" property="enabled"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, password, email, age, account_non_expired, account_non_locked, credentials_non_Expired, 
+    id, username, password, email, age, account_non_expired, account_non_locked, credentials_non_Expired,
     enabled
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -27,11 +27,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.jxufe.entity.User">
-    insert into user (id, name, password, 
+    insert into user (id, username, password,
       email, age, account_non_expired, 
       account_non_locked, credentials_non_Expired, 
       enabled)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{email,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{accountNonExpired,jdbcType=INTEGER}, 
       #{accountNonLocked,jdbcType=INTEGER}, #{credentialsNonExpired,jdbcType=INTEGER}, 
       #{enabled,jdbcType=INTEGER})
@@ -42,8 +42,8 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="name != null">
-                name,
+            <if test="username != null">
+                username,
             </if>
             <if test="password != null">
                 password,
@@ -71,8 +71,8 @@
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
             </if>
-            <if test="name != null">
-                #{name,jdbcType=VARCHAR},
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
@@ -100,8 +100,8 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.jxufe.entity.User">
         update user
         <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
@@ -129,7 +129,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.jxufe.entity.User">
     update user
-    set name = #{name,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
         select
         <include refid="Base_Column_List"/>
         from user
-        where name = #{userName,jdbcType=INTEGER}
+        where username = #{userName,jdbcType=INTEGER}
     </select>
     <!--1.按照用户名查找用户的角色信息-->
     <select id="selRoleInfoByName" resultType="string">
@@ -153,7 +153,7 @@
         FROM user u,user_role ur,role r
         WHERE u.id = ur.uid
         AND r.id = ur.rid
-        AND u.name=#{userName};
+        AND u.username=#{userName};
     </select>
 
 

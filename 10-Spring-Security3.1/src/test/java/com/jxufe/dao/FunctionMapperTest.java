@@ -4,6 +4,7 @@ import com.jxufe.entity.UserRole;
 import com.jxufe.security.dto.FunctionRoleDTO;
 import com.jxufe.security.vo.SecurityRole;
 import com.jxufe.security.vo.SecurityUser;
+import com.jxufe.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class FunctionMapperTest {
     @Autowired
     private RoleFunctionMapper roleFunctionMapper;
 
+    @Autowired
+    private UserService userService;
+
     @Test
     public void selAllResourseRole() throws Exception {
         Collection<FunctionRoleDTO> collections = roleFunctionMapper.selAllResourseRole();
@@ -43,6 +47,11 @@ public class FunctionMapperTest {
     public void test(){
         List<ConfigAttribute> objs = new ArrayList<>();
         objs.add(new SecurityRole());
+    }
+    @Test
+    public void test2(){
+        SecurityUser securityUser = userService.selectUserInfoByName("quuser");
+        System.out.println(securityUser);
     }
 
 }

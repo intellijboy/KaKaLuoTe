@@ -18,6 +18,7 @@
 <h2><a href="/admin/delete">访问:/admin/delete</a></h2>
 <h2><a href="/admin/query">访问:/admin/query</a></h2>
 <h2><a href="/admin/update">访问:/admin/update</a></h2>
+<h2><a href="/user/query/1">访问:/user/query/1</a></h2>
 <h2><a href="/j_spring_security_logout">注销</a></h2>
 </body>
 </html>

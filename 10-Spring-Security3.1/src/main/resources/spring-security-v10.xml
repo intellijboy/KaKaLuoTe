@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!--
+        使用非注解对方法进行权限控制
+    -->
+
+    <beans:bean id="securityXmlUserServiceIml" class="com.jxufe.service.iml.XmlUserServiceIml">
+        <intercept-methods>
+            <protect method="select*" access="ROLE_USER,ROLE_ADMIN_QUERY,ROLE_ADMIN_CREATE,ROLE_ADMIN_DELETE,ROLE_ADMIN_DELETE,ROLE_ADMIN_UPDATE"/>
+            <protect method="delete*" access="ROLE_ADMIN_UPDATE"/>
+            <protect method="insert*" access="ROLE_ADMIN_CREATE"/>
+            <protect method="update*" access="ROLE_ADMIN_UPDATE"/>
+        </intercept-methods>
+    </beans:bean>
+
+
+    <http auto-config="false" use-expressions="false" access-denied-page="/denied.jsp"
+          entry-point-ref="myAuthenticationEntryPoint">
+        <intercept-url pattern="/security/fail" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/expireed.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/portal.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"></intercept-url>
+        <!--  <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
+        <intercept-url pattern="/admin/index" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/query" access="ROLE_ADMIN_QUERY"/>
+        <intercept-url pattern="/admin/create" access="ROLE_ADMIN_CREATE"/>
+        <intercept-url pattern="/admin/delete" access="ROLE_ADMIN_DELETE"/>
+        <intercept-url pattern="/admin/update" access="ROLE_ADMIN_UPDATE"/>
+        <intercept-url pattern="/user/**" access="ROLE_USER"/>
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/login.jsp" delete-cookies="JSESSIONID"
+                invalidate-session="true"/>
+        <remember-me token-validity-seconds="86400" key="ceshi"/>
+
+
+
+        <!--自定义登陆处理-->
+        <custom-filter ref="myLoginFilter" position="FORM_LOGIN_FILTER"></custom-filter>
+        <!--自定义权限过滤-->
+        <custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+    </http>
+
+
+    <!--
+    ****************************自定义myLoginFilter开始****************************
+    -->
+    <beans:bean id="myLoginFilter" class="com.jxufe.security.filter.MyLoginFilter">
+        <beans:property name="usernameParameter" value="username"></beans:property>
+        <beans:property name="passwordParameter" value="password"></beans:property>
+        <beans:property name="filterProcessesUrl" value="/security/login"></beans:property>
+        <beans:property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"></beans:property>
+        <beans:property name="authenticationFailureHandler" ref="authenticationFailHandler"></beans:property>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+        <beans:property name="sessionAuthenticationStrategy" ref="mySessionControlStrategy"></beans:property>
+    </beans:bean>
+
+    <!--自定义登陆点-->
+    <beans:bean id="myAuthenticationEntryPoint"
+                class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login.jsp"></beans:property>
+    </beans:bean>
+    <!--自定义session处理器，这里使用默认-->
+    <beans:bean id="mySessionControlStrategy"
+                class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <beans:constructor-arg ref="sessionRegistry"/>
+        <!--允许同时存在session数量-->
+        <beans:property name="migrateSessionAttributes" value="true"></beans:property>
+        <beans:property name="maximumSessions" value="1"></beans:property>
+        <beans:property name="exceptionIfMaximumExceeded" value="true"></beans:property>
+    </beans:bean>
+
+
+    <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl">
+    </beans:bean>
+
+    <!--验证成功处理的BeanHandler-->
+    <beans:bean id="authenticationSuccessHandler"
+                class="com.jxufe.security.handler.MyAuthenticationSuccessHandlerImpl"></beans:bean>
+    <!--验证陈工处理的BeanHandler-->
+    <beans:bean id="authenticationFailHandler"
+                class="com.jxufe.security.handler.MyAuthenticationFailHandlerImpl"></beans:bean>
+    <!--
+    ****************************自定义myLoginFilter结束****************************
+    -->
+
+
+    <!--
+    ****************************自定义SecurityFilter开始****************************
+    -->
+    <beans:bean id="mySecurityFilter" class="com.jxufe.security.filter.MySecurityFilter">
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource"></beans:property>
+        <beans:property name="accessDecisionManager" ref="myaccessDecisionManager"></beans:property>
+        <beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+    </beans:bean>
+
+    <!--自定义securityMetadataSource-->
+    <beans:bean id="securityMetadataSource" class="com.jxufe.security.manager.MySecurityMetadataSource">
+        <beans:property name="functionRoleService" ref="functionRoleServiceIml"></beans:property>
+    </beans:bean>
+    <!--自定义accessDecisionManager-->
+    <beans:bean id="myaccessDecisionManager" class="com.jxufe.security.manager.MyaccessDecisionManager">
+    </beans:bean>
+    <!-- 用于认证的 AuthenticationManager -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="myUserDetailService">
+            <!--用户名密码采用MD5加盐值进行加密-->
+            <password-encoder ref="md5PasswordEncoder">
+                <salt-source user-property="username"></salt-source>
+            </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="md5PasswordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+        <!--MD5迭代加密次数-->
+        <beans:property name="iterations" value="5"></beans:property>
+    </beans:bean>
+    <beans:bean id="myUserDetailService"
+                class="com.jxufe.security.service.MyUserDetailService">
+        <beans:property name="userService" ref="xmlUserServiceIml"></beans:property>
+    </beans:bean>
+    <!--
+    ****************************自定义SecurityFilter结束****************************
+    -->
+
+
+</beans:beans>

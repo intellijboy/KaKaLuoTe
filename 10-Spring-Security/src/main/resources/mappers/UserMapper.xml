@@ -13,7 +13,7 @@
         <result column="enabled" jdbcType="INTEGER" property="enabled"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, password, email, age, account_non_expired, account_non_locked, credentials_non_Expired, 
+    id, name, password, email, age, account_non_expired, account_non_locked, credentials_non_Expired,
     enabled
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -27,7 +27,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.jxufe.entity.User">
-    insert into user (id, name, password, 
+    insert into user (id, name, password,
       email, age, account_non_expired, 
       account_non_locked, credentials_non_Expired, 
       enabled)
@@ -42,7 +42,7 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="name != null">
+            <if test="username != null">
                 name,
             </if>
             <if test="password != null">

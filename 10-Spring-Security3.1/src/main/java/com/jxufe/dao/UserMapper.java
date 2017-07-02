@@ -14,11 +14,11 @@ public interface UserMapper {
 
     SecurityUser selectByPrimaryKey(Integer id);
 
-    SecurityUser selectUserInfoByName(String userName);
-
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
     List<String> selRoleInfoByName(String userName);
+
+    SecurityUser selectUserInfoByName(String userName);
 }
