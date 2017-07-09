@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <!-- 载入属性文件  -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <!-- 不需要区分环境的 -->
+                <value>classpath:properties/*.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <mongo:mongo-client id="mongofs" host="${mongodb.host}" port="${mongodb.port}" credentials="${mongodb.user}:${mongodb.pwd}@${mongodb.credentials.DbName}">
+        <mongo:client-options connections-per-host="8" threads-allowed-to-block-for-connection-multiplier="4"
+                              connect-timeout="1000"
+                              max-wait-time="1500" socket-keep-alive="true" socket-timeout="1500"
+                              write-concern="NORMAL"/>
+    </mongo:mongo-client>
+
+    <mongo:db-factory id="mongoDbFactory" dbname="${mongodb.connect.DbName}" mongo-ref="mongofs"/>
+
+    <mongo:mapping-converter id="mongofsConverter"/>
+
+    <!-- GridFS 操作模板	BEGIN 	存储文档 -->
+    <bean id="evaGridFsTemplate" class="com.jxufe.mongo.gridfs.GenericGridFsTemplate">
+        <constructor-arg ref="mongoDbFactory"/>
+        <constructor-arg ref="mongofsConverter"/>
+        <!--bucket默认是fs-->
+        <constructor-arg value="fs-sso"></constructor-arg>
+    </bean>
+
+    <!--<tx:annotation-driven></tx:annotation-driven>-->
+</beans>

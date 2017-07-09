@@ -4,6 +4,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <import resource="classpath:spring-fs.xml"></import>
+
     <!--1.配置web Control扫描器-->
     <context:component-scan base-package="com.jxufe.control"></context:component-scan>
     <!--2.配置试图解析器-->
@@ -12,12 +15,34 @@
         <property name="suffix" value=".jsp"></property>
     </bean>
     <!--3.配置注解启动器-->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <!--避免文件下载出现损坏现象-->
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!--4.配置静态资源访问-->
     <mvc:default-servlet-handler></mvc:default-servlet-handler>
 
     <!--其他配置:拦截器，文件上传等-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="52428800"/> <!-- 上传文件大小限制为5M，5*1024*1024 -->
+        <property name="maxInMemorySize" value="8388608"/> <!-- 内存大小限制为8M，8*1024*1024 -->
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="uploadTempDir" value="fileUpload/temp"></property><!--临时缓存目录-->
+    </bean>
+
     <!-- <mvc:interceptors>
          <mvc:interceptor>
              <mvc:mapping path="/seckill/**"></mvc:mapping>
@@ -25,4 +50,8 @@
              <bean class="com.ylz.interceptor.NoSuchURLInterceptor"></bean>
          </mvc:interceptor>
      </mvc:interceptors>-->
+
+
+    <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+
 </beans>
