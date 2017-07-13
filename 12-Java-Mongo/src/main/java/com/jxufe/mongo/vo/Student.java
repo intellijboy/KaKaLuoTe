@@ -1,12 +1,18 @@
 package com.jxufe.mongo.vo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
 /**
  * Created by liuburu on 2017/6/9.
  */
+@Document
 public class Student {
-    private Integer id;
+
+    @Id
+    private Integer stuId;
     private String name;
     private Date birthday;
     private Integer age;
@@ -15,20 +21,20 @@ public class Student {
     public Student() {
     }
 
-    public Student(Integer id, String name, Date birthday, Integer age, Integer sex) {
-        this.id = id;
+    public Student(Integer stuId, String name, Date birthday, Integer age, Integer sex) {
+        this.stuId = stuId;
         this.name = name;
         this.birthday = birthday;
         this.age = age;
         this.sex = sex;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getStuId() {
+        return stuId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStuId(Integer stuId) {
+        this.stuId = stuId;
     }
 
     public String getName() {
@@ -66,7 +72,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "stu_no=" + id +
+                "stuId=" + stuId +
                 ", name='" + name + '\'' +
                 ", birthday=" + birthday +
                 ", age=" + age +

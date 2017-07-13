@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <head>
-    <title>完整demo</title>
+    <title>完整demo666</title>
     <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script type="text/javascript" charset="utf-8" src="/utf8-jsp/ueditor.config.js"></script>
@@ -88,15 +88,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         autosave:false,/*自动保存关闭*/
         emotionLocalization:true/*启用本地表情*/
     });
-    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+   /* UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
-        if (action == 'uploadimage' || action == 'uploadfile'|| action == 'uploadvideo') {
-            return '/ueditor/upload';
-        }else {
-            return this._bkGetActionUrl.call(this, action);
+        console.log("action==>"+action);
+        if (action == 'uploadimage'|| action == 'uploadfile') {
+            return '/ueditor/imagefile/upload';
+        }else if(action=='uploadscrawl'){
+            return "/ueditor/uploadscrawl/upload";
+        } else if (action == 'uploadvideo') {
+            return '/ueditor/imagefile/upload';
+        } else if(action=='catchimage'){
+            return '/ueditor/imagefile/upload';
+        }else if(action=='config'){
+            return "utf8-jsp/jsp/controller.jsp?action=config";
+            // return this._bkGetActionUrl.call(this, action);
         }
-    };
-
+    };*/
 
 
     function isFocus(e){

@@ -1,29 +1,25 @@
 package com.mongo.java.hello;
 
-import com.jxufe.mongo.gridfs.GenericGridFsTemplate;
+import com.jxufe.mongo.gridfs.CustomGridFsTemplate;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.*;
-import java.util.List;
 
 /**
  * Created by liuburu on 2017/7/8.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring-fs.xml"})
-public class MongoUtilTest {
+public class MongoFileUtilTest {
 
     @Autowired
-    GenericGridFsTemplate gridFsTemplate;
+    CustomGridFsTemplate gridFsTemplate;
 
     @Test
     public void test() {
@@ -48,4 +44,5 @@ public class MongoUtilTest {
         GridFSFile fsFile = gridFsTemplate.store(bufferedInputStream, "测试文件");
         System.out.println("保存结果==>" + fsFile);
     }
+
 }

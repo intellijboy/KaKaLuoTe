@@ -21,6 +21,14 @@
         <param-value>6000</param-value>
     </context-param>
 
+    <!--shrio 扫描的bean filter的名称-->
+    <context-param>
+        <param-name>targetBeanName</param-name>
+        <param-value>shiroFilter12</param-value>
+    </context-param>
+
+
+
 
     <!--上下文监听器-->
     <listener>
@@ -33,6 +41,24 @@
     </listener>
 
 
+    <!--Shrio 过滤器-->
+    <filter>
+        <filter-name>myShiroFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetFilterLifecycle</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>shiroFilter</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>myShiroFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!--POST编码过滤器配置-->
     <filter>

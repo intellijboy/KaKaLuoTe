@@ -1,6 +1,5 @@
 package com.jxufe.util;
 
-import com.alibaba.druid.filter.config.ConfigTools;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.jxufe.mongo.gridfs;
 
-import com.jxufe.mongo.gridfs.api.GenericGridFsOperations;
+import com.jxufe.mongo.gridfs.api.CustomGridFsOperations;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.convert.MongoConverter;
@@ -11,12 +11,12 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 /**
  * Created by liuburu on 2017/7/8.
  */
-public class GenericGridFsTemplate extends GridFsTemplate implements GenericGridFsOperations {
-    public GenericGridFsTemplate(MongoDbFactory dbFactory, MongoConverter converter) {
+public class CustomGridFsTemplate extends GridFsTemplate implements CustomGridFsOperations {
+    public CustomGridFsTemplate(MongoDbFactory dbFactory, MongoConverter converter) {
         super(dbFactory, converter);
     }
 
-    public GenericGridFsTemplate(MongoDbFactory dbFactory, MongoConverter converter, String bucket) {
+    public CustomGridFsTemplate(MongoDbFactory dbFactory, MongoConverter converter, String bucket) {
         super(dbFactory, converter, bucket);
     }
 

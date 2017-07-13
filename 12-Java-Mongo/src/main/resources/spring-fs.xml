@@ -26,12 +26,18 @@
     <mongo:mapping-converter id="mongofsConverter"/>
 
     <!-- GridFS 操作模板	BEGIN 	存储文档 -->
-    <bean id="evaGridFsTemplate" class="com.jxufe.mongo.gridfs.GenericGridFsTemplate">
+    <bean id="evaGridFsTemplate" class="com.jxufe.mongo.gridfs.CustomGridFsTemplate">
         <constructor-arg ref="mongoDbFactory"/>
         <constructor-arg ref="mongofsConverter"/>
         <!--bucket默认是fs-->
         <constructor-arg value="fs-sso"></constructor-arg>
     </bean>
 
-    <!--<tx:annotation-driven></tx:annotation-driven>-->
+    <bean id="evaMontoTemplete" class="com.jxufe.mongo.gridfs.CustomMongoTemplete">
+        <constructor-arg ref="mongoDbFactory"/>
+        <constructor-arg ref="mongofsConverter"/>
+        <!--bucket默认是fs-->
+      <!--  <constructor-arg value="fs-sso"></constructor-arg>-->
+    </bean>
+
 </beans>

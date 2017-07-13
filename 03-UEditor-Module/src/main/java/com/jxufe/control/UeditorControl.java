@@ -46,17 +46,30 @@ public class UeditorControl {
         System.out.println("文件内容:"+content);
         System.out.println("Main Thread begin");
         System.out.println("Main Thread end");
-        return "success:"+content;
+        return content;
     }
 
 
+    @RequestMapping(value = "/uploadscrawl/upload",method = RequestMethod.POST)
+    @ResponseBody
+    public UEditorUploadDTO uploadTuYa(@RequestParam("upfile")String upfile){
+        UEditorUploadDTO uploadDTO = new UEditorUploadDTO();
+        uploadDTO.setOriginal("upfile");
+        uploadDTO.setTitle("uploadscrawl title");
+        uploadDTO.setState("SUCCESS");
+        String fileUrl = "ueditor/files/down/"+upfile;
+        uploadDTO.setUrl(fileUrl);
+        System.err.println("==>"+uploadDTO);
+        return uploadDTO;
+    }
+
 
     /**
-     * 文件上传（图片、文件、涂鸦、声音、视频）
+     * 文件上传（图片、文件、视频）
      * @param multipartFile
      * @return
      */
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    @RequestMapping(value = "/imagefile/upload",method = RequestMethod.POST)
     @ResponseBody
     public UEditorUploadDTO singleImageUpload(
             @RequestParam(value = "upfile",required = false) CommonsMultipartFile multipartFile) throws IOException {
@@ -65,9 +78,6 @@ public class UeditorControl {
         uploadDTO.setOriginal(originalFilename);
         uploadDTO.setTitle(originalFilename);
         uploadDTO.setState("SUCCESS");
-       // uploadDTO.setUrl("/ueditor/jsp/upload/image/"+originalFilename);
-//        File file = new File("/ueditor/jsp/upload/image/"+originalFilename);
-//        multipartFile.transferTo(file);
         System.out.println("上传文件结果显示==>"+uploadDTO);
         GridFSFile fsFile = gridFsTemplate.store(multipartFile.getInputStream(), "sso_"+originalFilename);
         String fileUrl = "ueditor/files/down/"+fsFile.getId();
@@ -78,24 +88,15 @@ public class UeditorControl {
 
     @RequestMapping("/files/down/{fileId}")
     public ResponseEntity<byte[]> download(@PathVariable("fileId") String fileId) throws IOException {
-//        System.out.println("filenmae===>"+filename);
-//        String path="C:\\Users\\liubu\\Desktop\\mongoDB.rar";
-//        File file=new File(path);
-//        HttpHeaders headers = new HttpHeaders();
-//        String fileName=new String("测试下载.rar".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题
-//        headers.setContentDispositionFormData("attachment", fileName);
-//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-
         GridFSDBFile loadFile = gridFsTemplate.load(fileId);
         InputStream is = loadFile.getInputStream();
-//        File file = new File("C:\\Users\\liubu\\Pictures\\流程图图标.jpg");
-//        InputStream is = new FileInputStream(file);
         byte[] body = null;
         body = new byte[(int) loadFile.getLength()];
         is.read(body);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.add("Content-Disposition", "attchement;filename=" + loadFile.getFilename());
+        String fileName = new String(loadFile.getFilename().getBytes("UTF-8"),"iso-8859-1");
+        headers.add("Content-Disposition", "attchement;filename=" +fileName);
         HttpStatus statusCode = HttpStatus.OK;
         ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body, headers, statusCode);
         return entity;
