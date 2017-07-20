@@ -88,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         autosave:false,/*自动保存关闭*/
         emotionLocalization:true/*启用本地表情*/
     });
-   /* UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
     UE.Editor.prototype.getActionUrl = function(action) {
         console.log("action==>"+action);
         if (action == 'uploadimage'|| action == 'uploadfile') {
@@ -103,7 +103,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             return "utf8-jsp/jsp/controller.jsp?action=config";
             // return this._bkGetActionUrl.call(this, action);
         }
-    };*/
+    };
 
 
     function isFocus(e){

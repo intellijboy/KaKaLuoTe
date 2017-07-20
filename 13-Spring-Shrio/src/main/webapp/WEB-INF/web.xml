@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     <!--spring文件扫描-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-contenxt.xml</param-value>
+        <param-value>classpath:spring-contenxt-multi-realm.xml</param-value>
     </context-param>
     <!--Log4j文件扫描-->
     <context-param>
@@ -26,9 +26,6 @@
         <param-name>targetBeanName</param-name>
         <param-value>shiroFilter12</param-value>
     </context-param>
-
-
-
 
     <!--上下文监听器-->
     <listener>

@@ -9,7 +9,7 @@
     <!-- 驱动包路径！ -->
     <classPathEntry location="${generator.driverLocation}"/>
 
-    <context id="sys" targetRuntime="MyBatis3" defaultModelType="flat">
+    <context id="DB2Tables" targetRuntime="MyBatis3" defaultModelType="flat">
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true"/>
@@ -56,35 +56,7 @@
         </javaClientGenerator>
 
         <!--  表配置    tableName 表名      domainObjectName java类名，首字母必须大写，否则报字符串越界错误 -->
-        <table tableName="user" domainObjectName="User"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="role" domainObjectName="Role"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="function" domainObjectName="Function"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="user_role" domainObjectName="UserRole"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="role_function" domainObjectName="RoleFunction"
+        <table tableName="resources" domainObjectName="Resources"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

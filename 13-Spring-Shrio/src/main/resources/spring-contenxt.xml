@@ -15,13 +15,15 @@
 
     <!--3.配置helloRealm-->
     <bean id="helloRealm" class="com.shrio.demo.realms.HelloRealm">
+        <property name="name" value="helloRealm"></property>
     </bean>
 
     <!-- 4. 配置 LifecycleBeanPostProcessor. 可以自动的来调用配置在 Spring IOC 容器中 shiro bean 的生命周期方法-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <!-- 5. 启用 IOC 容器中使用 shiro 的注解. 但必须在配置了 LifecycleBeanPostProcessor 之后才可以使用. -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
@@ -36,17 +38,18 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login.jsp"/>
-        <property name="successUrl" value="/shrio/success"/>
+        <property name="successUrl" value="/success"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
         <property name="filterChainDefinitions">
             <value>
                 <!--第一次匹配优先规则-->
-                /user/index = anon
+                /shrio/login = anon
+                /shrio/logout = logout
                 /login.jsp = anon
+                /login/success= user
                 /** = authc
             </value>
         </property>
-
     </bean>
 
 

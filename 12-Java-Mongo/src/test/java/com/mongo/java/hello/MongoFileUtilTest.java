@@ -24,6 +24,7 @@ public class MongoFileUtilTest {
     @Test
     public void test() {
         System.out.println("MongoDB==>" + gridFsTemplate);
+        gridFsTemplate.load("5968d12176e3d63240083436");
     }
 
 

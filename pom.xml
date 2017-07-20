@@ -71,6 +71,7 @@
         <module>11-Mybatis-Geneator</module>
         <module>12-Java-Mongo</module>
         <module>13-Spring-Shrio</module>
+        <module>13-Shrio-JDBC</module>
     </modules>
     <build>
         <finalName>${project.artifactId}</finalName>
