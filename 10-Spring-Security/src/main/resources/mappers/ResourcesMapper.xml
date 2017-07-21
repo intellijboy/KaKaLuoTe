@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.dao.ResourceFileMapper">
+  <resultMap id="BaseResultMap" type="com.jxufe.entity.ResourcesFile">
+    <result column="RESOURCEID" jdbcType="VARCHAR" property="resourceid" />
+    <result column="USERID" jdbcType="VARCHAR" property="userid" />
+    <result column="RESOURCESTATE" jdbcType="VARCHAR" property="resourcestate" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="SENDTIME" jdbcType="TIMESTAMP" property="sendtime" />
+    <result column="DEADLINE" jdbcType="TIMESTAMP" property="deadline" />
+    <result column="RESOURCESCOPE" jdbcType="VARCHAR" property="resourcescope" />
+  </resultMap>
+  <insert id="insert" parameterType="com.jxufe.entity.ResourcesFile">
+    insert into RESOURCES (RESOURCEID, USERID, RESOURCESTATE, 
+      TITLE, SENDTIME, DEADLINE, 
+      RESOURCESCOPE)
+    values (#{resourceid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{resourcestate,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, #{deadline,jdbcType=TIMESTAMP}, 
+      #{resourcescope,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jxufe.entity.ResourcesFile">
+    insert into RESOURCES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resourceid != null">
+        RESOURCEID,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="resourcestate != null">
+        RESOURCESTATE,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="sendtime != null">
+        SENDTIME,
+      </if>
+      <if test="deadline != null">
+        DEADLINE,
+      </if>
+      <if test="resourcescope != null">
+        RESOURCESCOPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resourceid != null">
+        #{resourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcestate != null">
+        #{resourcestate,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null">
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deadline != null">
+        #{deadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resourcescope != null">
+        #{resourcescope,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

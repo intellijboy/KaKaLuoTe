@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.dao.ResourceRealationMapper">
+  <resultMap id="BaseResultMap" type="com.jxufe.entity.ResourceRealation">
+    <id column="RESOURCEID" jdbcType="VARCHAR" property="resourceid" />
+    <id column="FILEID" jdbcType="VARCHAR" property="fileid" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from RESOURCERELATION
+    where RESOURCEID = #{resourceid,jdbcType=VARCHAR}
+      and FILEID = #{fileid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jxufe.entity.ResourceRealation">
+    insert into RESOURCERELATION (RESOURCEID, FILEID)
+    values (#{resourceid,jdbcType=VARCHAR}, #{fileid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jxufe.entity.ResourceRealation">
+    insert into RESOURCERELATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resourceid != null">
+        RESOURCEID,
+      </if>
+      <if test="fileid != null">
+        FILEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resourceid != null">
+        #{resourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="fileid != null">
+        #{fileid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

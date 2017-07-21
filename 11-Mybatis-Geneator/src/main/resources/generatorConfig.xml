@@ -56,7 +56,7 @@
         </javaClientGenerator>
 
         <!--  表配置    tableName 表名      domainObjectName java类名，首字母必须大写，否则报字符串越界错误 -->
-        <table tableName="resources" domainObjectName="Resources"
+        <table tableName="RESOURCERELATION" domainObjectName="ResourceRealation"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

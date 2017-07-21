@@ -78,6 +78,7 @@
                     break;
             }
 
+            editor.fireEvent('afterUpfile', list);//添加这句话
             editor.execCommand('insertfile', list);
         };
     }
