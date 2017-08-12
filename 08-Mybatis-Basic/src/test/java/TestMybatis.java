@@ -29,7 +29,7 @@ public class TestMybatis {
 
     @Before
     public void initSqlSessionFactory() throws IOException {
-        String resource = "org/mybatis/example/mybatis-config.xml";
+        String resource = "org/mybatis/example/mybatis-config-basic.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     }

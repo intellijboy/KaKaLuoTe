@@ -1,0 +1,32 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--打开持久访问层日志输出配置,发现下面的配置不好用，当日志级别设置成了INFO级别的时候-->
+<!--
+    <logger name="org.mybatis.example.dao.EmployMapper" level="DEBUG" />
+    <logger name="org.mybatis.example.dao " level="DEBUG" />
+-->
+
+<!--
+    <logger name="org.mybatis.example.dao" level="DEBUG" />
+-->
+
+
+    <!--
+    置打印级别，所以继承他的上级<root>的日志级别“DEBUG”；
+    没有设置addtivity，默认为true，将此loger的打印信息向上级传递；
+    没有设置appender，此loger本身不打印任何信息。
+    -->
+    <logger name="org.mybatis.example.logback" level="DEBUG" addtivity="true"/>
+    <logger name="org.mybatis.example.dao" level="DEBUG" />
+
+    <!--日志输出级别:#ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF-->
+    <!--默认的在INFO级别无法输出DEBUG级别的数据库访问sql日志，这个时候需要自己制定日志打印规则-->
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

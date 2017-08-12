@@ -1,11 +1,12 @@
 package org.mybatis.example.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by liuburu on 2017/6/8.
  */
-public class Employ {
+public class Employ implements Serializable {
     private Integer empno;
     private String ename;
     private String job;
@@ -62,20 +63,6 @@ public class Employ {
         return sal;
     }
 
-    @Override
-    public String toString() {
-        return "Employ{" +
-                "empno=" + empno +
-                ", ename='" + ename + '\'' +
-                ", job='" + job + '\'' +
-                ", mgr=" + mgr +
-                ", hireDate=" + hireDate +
-                ", sal=" + sal +
-                ", comm=" + comm +
-                ", deptno=" + deptno +
-                '}';
-    }
-
     public void setSal(double sal) {
         this.sal = sal;
     }
@@ -94,5 +81,19 @@ public class Employ {
 
     public void setDeptno(Integer deptno) {
         this.deptno = deptno;
+    }
+
+    @Override
+    public String toString() {
+        return "Employ{" +
+                "empno=" + empno +
+                ", ename='" + ename + '\'' +
+                ", job='" + job + '\'' +
+                ", mgr=" + mgr +
+                ", hireDate=" + hireDate +
+                ", sal=" + sal +
+                ", comm=" + comm +
+                ", deptno=" + deptno +
+                '}';
     }
 }

@@ -24,14 +24,12 @@
             </tr>
             <tr>
                <td>
-<%--
                    <input type="hidden" name="${requestScope._csrf.parameterName}" value="${_csrf.token}" />
---%>
                </td>
             </tr>
             <tr>
                 <td>
-                    <input type="checkbox" name="_spring_security_remember_me" /> 记住我
+                    <input type="checkbox" name="_spring_security_remember_me" id="_spring_security_remember_me"/> 记住我
                 </td>
             </tr>
             <tr>

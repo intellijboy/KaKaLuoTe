@@ -7,8 +7,8 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-<!--日志输出级别:#ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF-->
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
+    <!--日志输出级别:#ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF-->
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

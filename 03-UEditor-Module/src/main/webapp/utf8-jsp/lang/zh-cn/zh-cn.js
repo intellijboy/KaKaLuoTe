@@ -312,7 +312,7 @@ UE.I18N['zh-cn'] = {
     },
     'attachment':{
         'static':{
-            'lang_tab_upload': '上传附件',
+            'lang_tab_upload': '',
             'lang_tab_online': '在线附件',
             'lang_start_upload':"开始上传",
             'lang_drop_remind':"可以将文件拖到这里，单次最多可选100个文件"

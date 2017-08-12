@@ -1,0 +1,66 @@
+[
+    { "id": "902", "text": "Base（基础）", "pid": "9", "children": [
+        { "id": "90201", "text": "Parser（解析器）", "pid": "1002", "attributes": { "href": "ysdocs/parser.html" } },
+		{ "id": "90202", "text": "EasyLoader（简单加载）", "pid": "1002", "attributes": { "href": "ysdocs/easyloader.html" } },
+		{ "id": "90203", "text": "Draggable（拖动）", "pid": "1002", "attributes": { "href": "ysdocs/draggable.html" } },
+		{ "id": "90204", "text": "Droppable（放置）", "pid": "1002", "attributes": { "href": "ysdocs/droppable.html" } },
+		{ "id": "90205", "text": "Resizable（调整大小）", "pid": "1002", "attributes": { "href": "ysdocs/resizable.html" } },
+		{ "id": "90206", "text": "Pagination（分页）", "pid": "1002", "attributes": { "href": "ysdocs/pagination.html" } },
+		{ "id": "90207", "text": "SearchBox（搜索框）", "pid": "1002", "attributes": { "href": "ysdocs/searchbox.html" } },
+		{ "id": "90208", "text": "ProgressBar（进度条）", "pid": "1002", "attributes": { "href": "ysdocs/progressbar.html" } },
+		{ "id": "90209", "text": "Tooltip（提示框）", "pid": "1002", "attributes": { "href": "ysdocs/tooltip.html" } },
+		{ "id": "90210", "text": "Mobile（移动）", "pid": "1002", "attributes": { "href": "ysdocs/mobile.html" } }
+    ]
+    },
+    { "id": "903", "text": "Layout（布局）", "pid": "9", "children": [
+        { "id": "90301", "text": "Panel（面板）", "pid": "903", "attributes": { "href": "ysdocs/panel.html" } },
+        { "id": "90302", "text": "Tabs（选项卡）", "pid": "903", "attributes": { "href": "ysdocs/tabs.html" } },
+		{ "id": "90303", "text": "Accordion（分类）", "pid": "903", "attributes": { "href": "ysdocs/accordion.html" } },
+		{ "id": "90304", "text": "Layout（布局）", "pid": "903", "attributes": { "href": "ysdocs/layout.html" } }
+    ]
+    },
+    { "id": "904", "text": "Menu and Button（菜单和按钮）", "pid": "9", "children": [
+        { "id": "90401", "text": "Menu（菜单）", "pid": "904", "attributes": { "href": "ysdocs/menu.html" } },
+		{ "id": "90402", "text": "LinkButton（按钮）", "pid": "904", "attributes": { "href": "ysdocs/linkbutton.html" } },
+		{ "id": "90403", "text": "MenuButton（菜单按钮）", "pid": "904", "attributes": { "href": "ysdocs/menubutton.html" } },
+		{ "id": "90404", "text": "SplitButton（分割按钮）", "pid": "904", "attributes": { "href": "ysdocs/splitbutton.html" } },
+        { "id": "90405", "text": "SwitchButton（开关按钮）", "pid": "904", "attributes": { "href": "ysdocs/switchbutton.html" } }
+    ]
+    },
+    { "id": "905", "text": "Form（表单）", "pid": "9", "children": [
+        { "id": "90501", "text": "Form（表单）", "pid": "905", "attributes": { "href": "ysdocs/form.html" } },
+        { "id": "90502", "text": "ValidateBox（验证框）", "pid": "905", "attributes": { "href": "ysdocs/validatebox.html" } },
+        { "id": "90503", "text": "TextBox（文本框）", "pid": "905", "attributes": { "href": "ysdocs/textbox.html" } },
+        { "id": "90504", "text": "PasswordBox（文本框）", "pid": "905", "attributes": { "href": "ysdocs/passwordbox.html" } },
+        { "id": "90505", "text": "Combo（自定义下拉框）", "pid": "905", "attributes": { "href": "ysdocs/combo.html" } },
+        { "id": "90506", "text": "ComboBox（下拉列表框）", "pid": "905", "attributes": { "href": "ysdocs/combobox.html" } },
+		{ "id": "90507", "text": "ComboTree（树形下拉框）", "pid": "905", "attributes": { "href": "ysdocs/combotree.html" } },
+        { "id": "90508", "text": "ComboGrid（数据表格下拉框）", "pid": "905", "attributes": { "href": "ysdocs/combogrid.html" } },
+        { "id": "90509", "text": "ComboTreeGrid（树形表格下拉框）", "pid": "905", "attributes": { "href": "ysdocs/combotreegrid.html" } },
+        { "id": "90510", "text": "NumberBox（数值输入框）", "pid": "905", "attributes": { "href": "ysdocs/numberbox.html" } },
+        { "id": "90511", "text": "DateBox（日期输入框）", "pid": "905", "attributes": { "href": "ysdocs/datebox.html" } },
+        { "id": "90512", "text": "DateTimeBox（日期时间输入框）", "pid": "905", "attributes": { "href": "ysdocs/datetimebox.html" } },
+		{ "id": "90513", "text": "DateTimeSpinner（日期时间微调框）", "pid": "905", "attributes": { "href": "ysdocs/datetimespinner.html" } },
+        { "id": "90514", "text": "Calendar（日历）", "pid": "905", "attributes": { "href": "ysdocs/calendar.html" } },
+        { "id": "90515", "text": "Spinner（微调）", "pid": "905", "attributes": { "href": "ysdocs/spinner.html" } },
+        { "id": "90516", "text": "NumberSpinner（数字微调）", "pid": "905", "attributes": { "href": "ysdocs/numberspinner.html" } },
+        { "id": "90517", "text": "TimeSpinner（时间微调）", "pid": "905", "attributes": { "href": "ysdocs/timespinner.html" } },
+        { "id": "90518", "text": "Slider（滑动条）", "pid": "905", "attributes": { "href": "ysdocs/slider.html" } },
+		{ "id": "90519", "text": "FileBox（文件框）", "pid": "905", "attributes": { "href": "ysdocs/filebox.html" } }
+    ]
+    },
+    { "id": "906", "text": "Window（窗口）", "pid": "9", "children": [
+        { "id": "90601", "text": "Window（窗口）", "pid": "906", "attributes": { "href": "ysdocs/window.html" } },
+		{ "id": "90602", "text": "Dialog（对话框窗口）", "pid": "906", "attributes": { "href": "ysdocs/dialog.html" } },
+        { "id": "90603", "text": "Messager（消息窗口）", "pid": "906", "attributes": { "href": "ysdocs/messager.html" } }
+    ]
+    },
+    { "id": "907", "text": "DataGrid and Tree（表格和树）", "pid": "9", "children": [
+        { "id": "90701", "text": "DataGrid（数据表格）", "pid": "907", "attributes": { "href": "ysdocs/datagrid.html" } },
+        { "id": "90702", "text": "DataList（数据列表）", "pid": "907", "attributes": { "href": "ysdocs/datalist.html" } },
+		{ "id": "90703", "text": "PropertyGrid（属性表格）", "pid": "907", "attributes": { "href": "ysdocs/propertygrid.html" } },
+		{ "id": "90704", "text": "Tree（树)", "pid": "907", "attributes": { "href": "ysdocs/tree.html" } },
+        { "id": "90705", "text": "TreeGrid（树形表格)", "pid": "907", "attributes": { "href": "ysdocs/treegrid.html" } }
+    ]
+    }
+]

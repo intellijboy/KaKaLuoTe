@@ -87,17 +87,6 @@ public class TestMybatisSetting {
 
     @Test
     public void testMybatisSetting(){
-        /**
-         * 1.测试列名别名规则
-         */
-
-        /**
-         * 2.测试驼峰命名规则
-         */
-
-        /**
-         * 3.测试自增主键规则
-         */
 
     }
 }

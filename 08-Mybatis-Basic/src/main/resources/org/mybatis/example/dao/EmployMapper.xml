@@ -4,8 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace 需要和接口所在的全类名保持一致-->
 <mapper namespace="org.mybatis.example.dao.EmployMapper">
+<!--
     <select id="selectEmploy" resultType="org.mybatis.example.bean.Employ">
         select * from emp where empno = #{empno}
     </select>
+-->
+    <select id="selectEmploy" resultType="Employ">
+        select * from emp where empno = #{empno}
+    </select>
+
+    <!--oracle数据库ID查询-->
+<!--    <select id="selectStudent" resultType="highStudent" parameterType="_int" databaseId="oracle">
+        select * from student where stu_no = #{stuNo}
+    </select>-->
+
+    <!--mysql数据库ID查询-->
+<!--    <select id="selectStudent" resultType="highStudent" parameterType="_int" databaseId="mysql">
+        select stuId stuNo,name,age,sex from student where stuId = #{stuNo}
+    </select>-->
+
+    <update id="updateStudent" parameterType="_int">
+        update student set age = 100 where stu_no = #{stuNo}
+    </update>
+
+
 
 </mapper>

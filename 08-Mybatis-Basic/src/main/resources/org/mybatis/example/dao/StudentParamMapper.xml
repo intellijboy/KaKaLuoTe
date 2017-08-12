@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 需要和接口所在的全类名保持一致-->
+<mapper namespace="org.mybatis.example.dao.StudentParamMapper">
+
+
+    <!--
+    正确：SELECT * FROM STUDENT WHERE STU_NO = #{0}
+    正确：SELECT * FROM STUDENT WHERE STU_NO = #{stuNo}
+    正确：SELECT * FROM STUDENT WHERE STU_NO = #{param1}
+    正确：SELECT * FROM STUDENT WHERE STU_NO = #{gadfgfshtjytjyafgwhrg}
+    -->
+    <!--string-->
+    <select id="stuQuery0" resultType="highStudent" parameterType="string">
+        SELECT * FROM STUDENT WHERE STU_NO = #{fsgshgdsa}
+    </select>
+
+    <!--student-->
+    <select id="stuQuery1" resultType="highStudent" parameterType="highStudent">
+        select * from student where name = #{name} and password = #{password} and age = #{age}
+    </select>
+
+    <!--
+        错误：select * from student where name = #{0} and password = #{1} and age = #{2}
+        正确：select * from student where name = #{param1} and password = #{param3} and age = #{param3}
+        正确：select * from student where name = #{name} and password = #{password} and age = #{age}
+    -->
+    <!--@param-->
+    <select id="stuQuery2" resultType="highStudent" parameterType="highStudent">
+        select * from student where name = #{name} and password = #{password} and age = #{age}
+    </select>
+
+
+    <!--
+       错误：select * from student where name = #{0} and password = #{1} and age = #{2}
+       错误：select * from student where name = #{param1} and password = #{param2} and age = #{param3}
+       正确：select * from student where name = #{name} and password = #{password} and age = #{age}
+   -->
+    <!--map-->
+    <select id="stuQuery3" resultType="highStudent" parameterType="highStudent">
+        select * from student where name = #{name} and password = #{password} and age = #{age}
+    </select>
+
+
+    <!--list-->
+    <select id="stuQuery4" resultType="highStudent" parameterType="list">
+        select * from student
+        WHERE STU_NO IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
+    <!--collection-->
+    <select id="stuQuery5" resultType="highStudent" parameterType="collection">
+        select * from student
+        WHERE STU_NO IN
+        <foreach collection="collection" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--map and collection-->
+    <select id="stuQuery6" resultType="highStudent" parameterType="map">
+        select * from student
+        WHERE
+        (
+        STU_NO IN
+        <foreach collection="mycollection" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        OR STU_NO IN
+        <foreach collection="mylist" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        OR STU_NO IN
+        <foreach collection="myarray" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        OR STU_NO IN
+        <foreach collection="studentList" index="index" item="item" open="(" separator="," close=")">
+            #{item.stuNo}
+        </foreach>
+        )
+        AND AGE > #{age}
+        AND SEX = #{student.sex}
+    </select>
+
+
+    <!--@Param(collction/list/array)-->
+    <select id="stuQuery7" resultType="highStudent">
+        select * from student
+        <where>
+            <if test="_parameter.mycollection!=null">
+                STU_NO IN
+                <foreach collection="mycollection" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="_parameter.age!=null and _parameter.age!=''">
+                AND AGE > #{age}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

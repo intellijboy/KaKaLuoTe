@@ -8,7 +8,7 @@
     <base href="<%=basePath%>">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script type="text/javascript" charset="utf-8" src="/utf8-jsp/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="/utf8-jsp/ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/utf8-jsp/ueditor.custom.attachement.js"></script>
     <script type="text/javascript" charset="utf-8" src="/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
 
     <style type="text/css">
@@ -50,7 +50,7 @@
 <script type="text/javascript">
     //实例化编辑器
     var _editor = UE.getEditor('editor', {
-        isShow: false,
+        isShow: true,
         focus: false,
         enableAutoSave: false,
         autoSyncData: false,
@@ -58,10 +58,8 @@
         wordCount: false,
         sourceEditor: null,
         scaleEnabled:true,
-        toolbars: [["insertimage", "attachment"]]
+        toolbars: [["attachment"]]
     });
-
-
     _editor.ready(function () {
         //侦听图片上传
         _editor.addListener('beforeInsertImage', function (t, arg) {
@@ -73,7 +71,6 @@
         //侦听文件上传，取上传文件列表中第一个上传的文件的路径
         _editor.addListener('afterUpfile', function (t, arg) {
             //$("#file").attr("value", _editor.options.filePath + arg[0].url);
-            debugger;
             console.log(arg[0].url);
             console.log("文件上传事件");
             console.log(arg);

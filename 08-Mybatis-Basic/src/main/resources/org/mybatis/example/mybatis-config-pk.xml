@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 打印查询语句 -->
+    <settings>
+        <!--2.开启别名规则（默认情况下是开启着的）-->
+        <setting name="useColumnLabel" value="true"/>
+        <!--3.开启驼峰命名规则 create_time==createTime-->
+        <setting name="mapUnderscoreToCamelCase" value="true"></setting>
+        <!--4.SQL日志打印-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="org.mybatis.example.bean.Employ"/>
+        <package name="org.mybatis.example"></package>
+    </typeAliases>
+    <environments default="dev_oracle">
+        <environment id="dev_oracle">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:ORCL"/>
+                <property name="username" value="scott"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+        <environment id="dev_mysql">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/dbcourse"/>
+                <property name="username" value="root"/>
+                <property name="password" value="liuburu"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--配置数据库厂商-->
+    <databaseIdProvider type="DB_VENDOR">
+        <!-- 为不同的数据库厂商起别名 -->
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="SQL Server" value="sqlserver"/>
+    </databaseIdProvider>
+
+    <mappers>
+        <!--扫描Mapper有三种方式：
+            1.使用resource指定类路径下的
+            2.使用url指定网络位置下的
+            3.使用class指定接口位置，此时Mapper必须和Dao位于同一个包下
+        -->
+<!--
+        <mapper resource="org\mybatis\example\dao\EmployMapper.xml"/>
+-->
+<!--
+        <mapper class="org.mybatis.example.dao.EmployMapper"></mapper>
+-->
+        <mapper resource="org\mybatis\example\dao\EmployMapper.xml"/>
+        <mapper resource="org\mybatis\example\dao\StudentMapper.xml"/>
+    </mappers>
+</configuration>

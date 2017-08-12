@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 需要和接口所在的全类名保持一致-->
+<mapper namespace="org.mybatis.example.dao.StudentMapper">
+
+<!--
+    <resultMap type="org.mybatis.example.bean.Student" id="mysql_result_base">
+        <id column="stuId" property="stuNo"/>
+        <result column="name" property="name"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+    </resultMap>
+
+    <resultMap type="org.mybatis.example.bean.Student" id="oracle_result_base">
+        <id column="STUNO" property="stuNo"/>
+        <result column="NAME" property="name"/>
+        <result column="SEX" property="sex"/>
+        <result column="AGE" property="age"/>
+    </resultMap>
+-->
+
+
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="mysql" useGeneratedKeys="true" keyProperty="stuNo">
+        insert into student(stuId,name,age,sex)
+        values(#{stuNo},#{name},#{age},#{sex})
+    </insert>
+
+<!--
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle">
+        insert into student(STU_NO,NAME,AGE,SEX)
+        values(#{stuNo},#{name},#{age},#{sex})
+    </insert>
+-->
+
+<!--
+    该方法报错
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle" useGeneratedKeys="true" keyProperty="stuNo">
+        insert into student(STU_NO,NAME,AGE,SEX)
+        values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
+    </insert>
+-->
+
+
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle" useGeneratedKeys="true" keyProperty="stuNo">
+        <selectKey keyProperty="stuNo" order="BEFORE" resultType="Integer">
+            <!-- 编写查询主键的sql语句 -->
+            <!-- AFTER:select EMP_SEQUENCE.currval from dual-->
+            <!-- BEFORE：-->
+             select EMP_SEQUENCE.nextval from dual
+        </selectKey>
+        <!--
+        insert into student(STU_NO,NAME,AGE,SEX)
+        values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
+        -->
+        insert into student(STU_NO,NAME,AGE,SEX)
+        values(#{stuNo},#{name},#{age},#{sex})
+
+    </insert>
+
+
+</mapper>

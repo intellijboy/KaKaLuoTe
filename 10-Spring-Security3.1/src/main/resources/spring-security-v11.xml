@@ -30,7 +30,14 @@
                 invalidate-session="true"/>
         <remember-me token-validity-seconds="86400" key="ceshi"/>
         <!--自定义登陆处理-->
-        <custom-filter ref="myLoginFilter" position="FORM_LOGIN_FILTER"></custom-filter>
+      <!--  <custom-filter ref="myLoginFilter" position="FORM_LOGIN_FILTER"></custom-filter>-->
+        <form-login login-page="/login.jsp"
+                    login-processing-url="/security/login"
+                    username-parameter="username"
+                    password-parameter="password"
+                    authentication-success-handler-ref="authenticationSuccessHandler"
+                    authentication-failure-handler-ref="authenticationFailHandler"
+        />
         <!--自定义权限过滤-->
         <custom-filter ref="mySecurityFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
     </http>

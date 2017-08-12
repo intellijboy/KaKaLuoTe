@@ -1,13 +1,17 @@
 package org.mybatis.example.bean;
 
+import org.apache.ibatis.type.Alias;
+
 import java.util.Date;
 
 /**
  * Created by liuburu on 2017/6/9.
  */
+@Alias("highStudent")
 public class Student {
-    private Integer stu_no;
+    private Integer stuNo;
     private String name;
+    private String password;
     private Date birthday;
     private Integer age;
     private Integer sex;
@@ -15,12 +19,17 @@ public class Student {
     public Student() {
     }
 
-    public Integer getStu_no() {
-        return stu_no;
+    public Student(Integer stuNo, String name) {
+        this.stuNo = stuNo;
+        this.name = name;
     }
 
-    public void setStu_no(Integer stu_no) {
-        this.stu_no = stu_no;
+    public Integer getStuNo() {
+        return stuNo;
+    }
+
+    public void setStuNo(Integer stuNo) {
+        this.stuNo = stuNo;
     }
 
     public String getName() {
@@ -55,11 +64,20 @@ public class Student {
         this.sex = sex;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
-                "stu_no=" + stu_no +
+                "stuNo=" + stuNo +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
                 ", birthday=" + birthday +
                 ", age=" + age +
                 ", sex=" + sex +

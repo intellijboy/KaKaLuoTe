@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 需要和接口所在的全类名保持一致-->
+<mapper namespace="org.mybatis.example.dao.ONGLMapper">
+
+    <!--普通拼接:此时不适用@Param注解也行-->
+    <select id="selectEmploy1" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp WHERE ename like CONCAT(CONCAT('%',#{ename}),'%')
+    </select>
+
+    <!--动态SQL拼接:_parameter单个参数判断不为空-->
+    <select id="selectEmploy2" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="_parameter != null">
+                and ename like CONCAT(CONCAT('%',#{ename}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--动态SQL拼接：动态SQL中参数需要使用@Param注解注释-->
+    <select id="selectEmploy3" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="ename != null and ename!=''">
+                and ename like CONCAT(CONCAT('%',#{ename}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--动态SQL拼接：参数类型为对象，也需要使用@Param注解，当然也可以
+            <if test="_parameter!=null">
+                and ename like CONCAT(CONCAT('%',#{employ.ename}),'%')
+            </if>
+    -->
+    <select id="selectEmploy4" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="employ!=null">
+                and ename like CONCAT(CONCAT('%',#{employ.ename}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--
+    动态拼接:在有@Param注解的时候，使用#{0}，会报错。
+    原理：在有@Param注解时候，参数为[ename, job, param1, param2]，找不到#{0}
+          在无@Param注解的时候，参数为[0, 1, param1, param2],能找到#{0}
+    -->
+    <select id="selectEmploy5" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="param1!=null">
+                and ename like CONCAT(CONCAT('%',#{0}),'%')
+            </if>
+            <if test="param2!=null">
+                and job = #{1}
+            </if>
+        </where>
+    </select>
+
+    <!--动态拼接:使用注解-->
+    <select id="selectEmploy6" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="ename!=null">
+                and ename like CONCAT(CONCAT('%',#{param1}),'%')
+            </if>
+            <if test="job!=null">
+                and job = #{param2}
+            </if>
+        </where>
+    </select>
+
+
+    <!--ONGL中使用静态参数-->
+    <select id="selectEmploy7" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        select * from emp
+        <where>
+            <if test="job==null">
+                and job = '${@org.mybatis.example.dao.code.EmpCode@SALESMAN}'
+            </if>
+        </where>
+    </select>
+
+    <!--ONGL中搭配使用bind-->
+    <select id="selectEmploy8" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        <bind name="rand"
+              value='@java.util.UUID@randomUUID().toString().replace("-", "")' />
+        select * from emp
+        <where>
+            <if test="ename==null">
+                and ename = #{rand}
+            </if>
+        </where>
+    </select>
+
+    <!--ONGL使用-->
+    <select id="selectEmploy9" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        <bind name="rand"
+              value='@java.util.UUID@randomUUID().toString().replace("-", "")' />
+        select * from emp
+        <where>
+            <if test="ename==null">
+                and ename = #{rand}
+            </if>
+        </where>
+    </select>
+
+
+    <!--ONGL使用,模糊查询支持类型
+    CONCAT(CONCAT('%',#{param1}),'%');
+    '%${ename}%';
+    <bind name="nameLike" value="'%' + ename + '%'"/>;
+    '%'||#{ename}||'%'
+    -->
+    <select id="selectEmploy10" parameterType="string" resultType="org.mybatis.example.bean.Employ">
+        <bind name="nameLike" value="'%' + ename + '%'"/>
+        select * from emp
+        <where>
+            <if test="ename!=null">
+                and ename LIKE '%'||#{ename}||'%'
+            </if>
+        </where>
+    </select>
+
+
+    <!--模糊查询：
+    concat('%', '${name}', '%');
+    concat('%', #{name}, '%');
+    <bind name="nameLike" value="'%' + name + '%'"/>
+    '${'%'+name+'%'}'
+     -->
+    <select id="selectStudent" resultType="org.mybatis.example.bean.Student" parameterType="string" databaseId="mysql">
+        <bind name="nameLike" value="'%' + name + '%'"/>
+        select stuId stuNo,name,age,sex
+        from student
+        <where>
+            <if test="name!=null">
+                and name LIKE +CONCAT(CONCAT('%',#{name}),'%');
+            </if>
+        </where>
+    </select>
+
+</mapper>

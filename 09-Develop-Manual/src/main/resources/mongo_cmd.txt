@@ -376,6 +376,18 @@ db.createUser( {
 })
 
 db.createUser( {
+    "user": "eva_sso",
+    "pwd": "eva_sso",
+    "customData": {
+        "message": "eva_sso用户"
+    },
+    "roles": [
+      "readWrite"
+    ]
+})
+
+
+db.createUser( {
     "user": "lbr",
     "pwd": "lbr",
     "customData": {

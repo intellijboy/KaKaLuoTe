@@ -1,0 +1,8 @@
+﻿[
+    { "id": "6", "text": "测试菜单 6", "iconCls": "icon-standard-application-cascade", "disabled": true },
+	{ "id": "9", "text": "easyui API", "iconCls": "icon-hamburg-docs" },
+    { "id": "10", "text": "easyui扩展  API", "iconCls": "icon-hamburg-docs" },
+    { "id": "11", "text": "easyui DEMO", "iconCls": "icon-hamburg-product-design" },
+    { "id": "12", "text": "Jquery API", "iconCls": "icon-hamburg-docs", "attributes": { "href": "http://www.php100.com/manual/jquery", "iniframe": true, "closable": true, "refreshable": true, "selected": true } },
+	{ "id": "13", "text": "框架文档", "iconCls": "icon-hamburg-docs" }
+]

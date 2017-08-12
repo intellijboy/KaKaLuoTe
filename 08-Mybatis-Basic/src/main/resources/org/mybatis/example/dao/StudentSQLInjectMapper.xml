@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 需要和接口所在的全类名保持一致-->
+<mapper namespace="org.mybatis.example.dao.StudentSQLInjectMapper">
+
+    <!--动态SQL注入测试-->
+    <!--方式一:select * from student where name = ? and password = ? -->
+    <select id="rightLoginQuery" resultType="highStudent" parameterType="highStudent">
+        select * from student where name = #{name} and password = #{password} and age = #{age}
+    </select>
+
+    <!--方式二:-->
+    <select id="wrongLoginQuery" resultType="highStudent" parameterType="highStudent">
+        select * from student where name = #{name} and password = ${password}
+    </select>
+
+</mapper>
