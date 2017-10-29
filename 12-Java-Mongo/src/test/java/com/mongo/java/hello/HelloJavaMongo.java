@@ -24,7 +24,7 @@ public class HelloJavaMongo {
         try {
             // 连接到 mongodb 服务
 //            MongoClient mongoClient = new MongoClient("192.168.56.102", 27017);
-            MongoClient mongoClient = new MongoClient("localhost");
+            MongoClient mongoClient = new MongoClient("192.168.56.103");
             // 连接到数据库
             MongoDatabase mongoDatabase = mongoClient.getDatabase("test");
             System.out.println("Connect to database successfully");
@@ -75,17 +75,17 @@ public class HelloJavaMongo {
         try {
             //连接到MongoDB服务 如果是远程连接可以替换“localhost”为服务器所在IP地址
             //1.服务器地址 和 端口配置
-            ServerAddress serverAddress1 = new ServerAddress("127.0.0.1", 27017);
+            ServerAddress serverAddress1 = new ServerAddress("lbr.mongo.cn", 27017);
             List<ServerAddress> addrs = new ArrayList<ServerAddress>();
             addrs.add(serverAddress1);
             //2.用户名 数据库名称 密码配置
-            MongoCredential credential1 = MongoCredential.createScramSha1Credential("system", "admin", "system".toCharArray());
+            MongoCredential credential1 = MongoCredential.createScramSha1Credential("eva_sso", "sso", "eva_sso".toCharArray());
             List<MongoCredential> credentials = new ArrayList<MongoCredential>();
             credentials.add(credential1);
             //3.认证获取MongoDB连接
             MongoClient mongoClient = new MongoClient(addrs, credentials);
             //4.连接到数据库
-            MongoDatabase mongoDatabase = mongoClient.getDatabase("test");
+            MongoDatabase mongoDatabase = mongoClient.getDatabase("sso");
             System.out.println("连接到数据库成功 ==>" + mongoDatabase);
             //5.创建数据库集合
             mongoDatabase.createCollection("school");

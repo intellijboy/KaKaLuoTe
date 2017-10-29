@@ -46,6 +46,11 @@ public class JavaMongoTest {
         mongoDatabase = mongoClient.getDatabase("test");
     }
 
+    @Test
+    public  void testMongoConnection(){
+
+    }
+
     /**
      * 插入一个文档
      */

@@ -14,7 +14,7 @@
         </property>
     </bean>
 
-    <mongo:mongo-client id="mongofs" host="${mongodb.host}" port="${mongodb.port}" credentials="${mongodb.user}:${mongodb.pwd}@${mongodb.credentials.DbName}">
+    <mongo:mongo-client id="mongofs" host="${mongodb.host}" port="${mongodb.port}" credentials="${mongodb.userName}:${mongodb.pwd}@${mongodb.credentials.DbName}">
         <mongo:client-options connections-per-host="8" threads-allowed-to-block-for-connection-multiplier="4"
                               connect-timeout="1000"
                               max-wait-time="1500" socket-keep-alive="true" socket-timeout="1500"
