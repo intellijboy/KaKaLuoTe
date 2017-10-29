@@ -7,6 +7,7 @@
 
     <!--1.配置目标bean-->
     <context:component-scan base-package="com.jxufe.xml.api"></context:component-scan>
+
     <!--2.配置切面-->
     <bean id="loggingAspect" class="com.jxufe.xml.aspect.LoggingAspect"></bean>
     <bean id="validatorAspect" class="com.jxufe.xml.aspect.ValidatorAspect"></bean>

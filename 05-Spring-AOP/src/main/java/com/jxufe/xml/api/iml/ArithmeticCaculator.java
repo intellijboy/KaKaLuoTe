@@ -28,7 +28,11 @@ public class ArithmeticCaculator implements Caculator {
 
     @Override
     public int div(int a, int b) {
-        int result = a/b;
+        int result = 0;
+        try{
+            result = a/b;
+        }catch (Exception ex){
+        }
         return result;
     }
 }

@@ -108,7 +108,6 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!--测试依赖-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -128,7 +127,58 @@
 
 
 
+        <!--  <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-esb</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-portal-ssoClient</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-portal-api</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-portal-log-api</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-portal-log-db</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-esb</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>
+          <dependency>
+              <groupId>com.ylzinfo</groupId>
+              <artifactId>eva-portal-log-mongodb</artifactId>
+              <version>3.0.2-SNAPSHOT</version>
+          </dependency>-->
     </dependencies>
+
+    <repositories>
+ <!--       <repository>
+            <id>ylzinfo-public</id>
+            <name>易联众公共库</name>
+            <url>http://192.168.22.97:8081/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+-->    </repositories>
 
 
 </project>

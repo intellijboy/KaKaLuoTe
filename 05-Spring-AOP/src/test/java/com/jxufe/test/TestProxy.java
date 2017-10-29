@@ -66,13 +66,13 @@ public class TestProxy {
      * 验证代理异常测试
      */
     @Test
-    public void testValidatorProxy2() {
+    public void testValidatorProxy2() throws Exception {
         ArithmeticCaculator caculator = new ArithmeticCaculator();
         Caculator validatorProxy = null;
-        Caculator logginProxy = null;
         try {
             validatorProxy = new CaculatorProxy(caculator).getValicatorCaculatorProxy();
         } catch (Exception e) {
+            throw e;
         }
         int reuslt1 = validatorProxy.div(100, -10);
         System.out.println(reuslt1);

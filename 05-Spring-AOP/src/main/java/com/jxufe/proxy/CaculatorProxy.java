@@ -39,7 +39,6 @@ public class CaculatorProxy {
                     result = method.invoke(target, args);
                     System.out.println("[日志返回通知]:method result is " + result);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     System.out.println("**************************");
                     System.out.println("[日志异常通知]:exception is " + e);
                     System.out.println(e.getCause());
@@ -74,19 +73,8 @@ public class CaculatorProxy {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                 String methodName = method.getName();
                 System.out.println("[验证前置通知]:method name is " + methodName + "and args is " + args);
-                Object result = null;
-                try {
-                    for (Object obj : args) {
-                        int t = (int) obj;
-                        if (t < 0) {
-                            throw new MyArithmeticException("数学异常，操作数必须为正数!");
-                        }
-                    }
-                    result = method.invoke(target, args);
-                    System.out.println("[验证返回通知]:method result is " + result);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Object result = method.invoke(target, args);
+                System.out.println("[验证返回通知]:method result is " + result);
                 System.out.println("[日志后置通知]:method name is " + methodName);
                 return result;
             }
