@@ -12,6 +12,7 @@
     <artifactId>10-Spring-Security3.1</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
