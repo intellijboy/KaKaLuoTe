@@ -87,7 +87,7 @@
 <!--            <dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">
                 <driverClass>com.mysql.jdbc.Driver</driverClass>
                 <jdbcUrl>jdbc:mysql://localhost:3306/logback?userUnicode=true&amp;characterEncoding=utf-8</jdbcUrl>
-                <user>root</user>
+             userNameuser>rouserNameuser>
                 <password>liuburu</password>
             </dataSource>-->
             <!--dbcp数据源-->
@@ -118,8 +118,8 @@
         <appender-ref ref="roll_appender_1"/>
         <appender-ref ref="roll_appender_2"/>
         <appender-ref ref="db_appender"/>-->
-        <appender-ref ref="db_appender"/>
-        <appender-ref ref="console_appender"/>
+<!--        <appender-ref ref="db_appender"/>
+        <appender-ref ref="console_appender"/>-->
        <!-- <appender-ref ref="roll_appender_2"/>-->
     </root>
 </configuration>

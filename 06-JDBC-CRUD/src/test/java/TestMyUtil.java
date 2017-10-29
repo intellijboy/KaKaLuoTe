@@ -1,16 +1,58 @@
+import com.alibaba.druid.filter.config.ConfigTools;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.jxufe.util.JDBCUtil;
-import oracle.jdbc.proxy.annotation.Pre;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Created by liuburu on 2017/6/6.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({
+        "classpath:spring.xml"
+})
 public class TestMyUtil {
+
+    /**
+     *
+     *E:\repository\maven\com\alibaba\druid\1.0.28>java -cp druid-1.0.28.jar com.alibaba.druid.filter.config.ConfigTools liuburu
+     privateKey:MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAx38Uad6UtHKhQrsAMXQJxqoTfUYN0174WaAmQ7g6yA6Xf8PWjK9x2JAd8NiWhWbR2ltkF16yG36LFrvV9JIqdQIDAQABAkEAo79SYSfahVbFuMFHglANqix1vNDgjkuYq/BBGDrCvOuRqS+JCDQmyCdjAVm5BQqGitTT2w7uxHJR4VdSwzZArQIhAO8MI7GdXRNJe6BzwN9LxyklN6oU8kGfDdiQju2DXNC7AiEA1aTmLmMu30dHy8jheJfeNBxcMrxkMpptGRdipCOElo8CIQCJU076DS3YE6HKtlS5sp2yPGgy9B+LpSTeIYWKWqmqWwIgFo1Plvn1SrB1jbdoxZgSZqHPwbNNSGIwvgNP8E+ngVUCICSA/Po+L/F56bidLXfKsq5nHhuZJsp+P0t/siKM6GGG
+     publicKey:MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMd/FGnelLRyoUK7ADF0CcaqE31GDdNe+FmgJkO4OsgOl3/D1oyvcdiQHfDYloVm0dpbZBdesht+ixa71fSSKnUCAwEAAQ==
+     password:B1CZg8Kez/Mw1cqtbmmr3U3IasTKDwFFxjbAFLE5yFvxmJAg2Ed+SCuY8I2riKjlWl2BJY/ylPzQIxVbmFwdfg==
+     */
+
+    @Test
+    public void test() throws Exception {
+        String privateKey = "MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAx38Uad6UtHKhQrsAMXQJxqoTfUYN0174WaAmQ7g6yA6Xf8PWjK9x2JAd8NiWhWbR2ltkF16yG36LFrvV9JIqdQIDAQABAkEAo79SYSfahVbFuMFHglANqix1vNDgjkuYq/BBGDrCvOuRqS+JCDQmyCdjAVm5BQqGitTT2w7uxHJR4VdSwzZArQIhAO8MI7GdXRNJe6BzwN9LxyklN6oU8kGfDdiQju2DXNC7AiEA1aTmLmMu30dHy8jheJfeNBxcMrxkMpptGRdipCOElo8CIQCJU076DS3YE6HKtlS5sp2yPGgy9B+LpSTeIYWKWqmqWwIgFo1Plvn1SrB1jbdoxZgSZqHPwbNNSGIwvgNP8E+ngVUCICSA/Po+L/F56bidLXfKsq5nHhuZJsp+P0t/siKM6GGG";
+        String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMd/FGnelLRyoUK7ADF0CcaqE31GDdNe+FmgJkO4OsgOl3/D1oyvcdiQHfDYloVm0dpbZBdesht+ixa71fSSKnUCAwEAAQ==";
+        String cipherText = "B1CZg8Kez/Mw1cqtbmmr3U3IasTKDwFFxjbAFLE5yFvxmJAg2Ed+SCuY8I2riKjlWl2BJY/ylPzQIxVbmFwdfg==";
+        String password = "liuburu";
+        String encryptPassword = ConfigTools.encrypt(privateKey,password);//加密成密文
+        System.out.println(encryptPassword.equals(cipherText));//比对
+        String decryptPassword = ConfigTools.decrypt(publicKey,cipherText);//解密成密码明文
+        System.out.println(decryptPassword.equals(password));//比对
+
+    }
+
+    @Autowired
+    private DruidDataSource dataSource;
+
+    @Test
+    public void test1() throws SQLException {
+        Connection connection = dataSource.getConnection();
+        System.out.println(connection);
+    }
 
     @Test
     public void testQuery() {
@@ -91,7 +133,7 @@ public class TestMyUtil {
      */
     @Test
     public void testLogBack() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             log.trace("======trace" + i);
             log.debug("======debug" + i);
             log.info("======info" + i);

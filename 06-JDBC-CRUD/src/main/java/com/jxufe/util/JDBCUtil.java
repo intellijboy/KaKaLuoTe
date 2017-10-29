@@ -2,6 +2,7 @@ package com.jxufe.util;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.commons.beanutils.BeanUtils;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,31 +35,40 @@ public class JDBCUtil {
      */
     static {
         try {
-            Properties info = new Properties();
-            InputStream inStream = JDBCUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
-            info.load(inStream);
+            Properties jdbcInfo = new Properties();
+            Properties encryptInfo = new Properties();
+            InputStream jdbcStream = JDBCUtil.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            InputStream encryptStream = JDBCUtil.class.getClassLoader().getResourceAsStream("encrpt_config.properties");
+            jdbcInfo.load(jdbcStream);
+            encryptInfo.load(encryptStream);
             dataSource = new DruidDataSource();
-            dataSource.setUrl(info.getProperty("jdbcUrl"));
-            dataSource.setDriverClassName(info.getProperty("driverClassName"));
-            dataSource.setUsername(info.getProperty("username"));
-            dataSource.setConnectProperties(info);
-            dataSource.setFilters(info.getProperty("filters"));
-            dataSource.setPassword(info.getProperty("password"));
-       //     System.out.println("解密:"+ ConfigTools.decrypt(info.getProperty("password")));
-            dataSource.setInitialSize(Integer.parseInt(info.getProperty("initialSize")));
-            dataSource.setMaxActive(Integer.parseInt(info.getProperty("maxActive")));
-            dataSource.setMinIdle(Integer.parseInt(info.getProperty("minIdle")));
-            dataSource.setMaxWait(Long.parseLong(info.getProperty("maxWait")));
-            dataSource.setPoolPreparedStatements(Boolean.parseBoolean(info.getProperty("poolPreparedStatements")));
-            dataSource.setMaxOpenPreparedStatements(Integer.parseInt(info.getProperty("maxOpenPreparedStatements")));
-            dataSource.setValidationQuery(info.getProperty("validationQuery"));
-            dataSource.setTestOnBorrow(Boolean.parseBoolean(info.getProperty("testOnBorrow")));
-            dataSource.setTestOnReturn(Boolean.parseBoolean(info.getProperty("testOnReturn")));
-            dataSource.setTestWhileIdle(Boolean.parseBoolean(info.getProperty("testWhileIdle")));
-            dataSource.setTimeBetweenConnectErrorMillis(Long.parseLong(info.getProperty("timeBetweenEvictionRunsMillis")));
+            dataSource.setConnectProperties(encryptInfo);
+            dataSource.setUrl(jdbcInfo.getProperty("jdbcUrl"));
+            dataSource.setDriverClassName(jdbcInfo.getProperty("driverClassName"));
+            dataSource.setUsername(jdbcInfo.getProperty("username"));
+            dataSource.setFilters(jdbcInfo.getProperty("filters"));
+            dataSource.setPassword(jdbcInfo.getProperty("password"));
+       //     System.out.println("解密:"+ ConfigTools.decrypt(jdbcInfo.getProperty("password")));
+            dataSource.setInitialSize(Integer.parseInt(jdbcInfo.getProperty("initialSize")));
+            dataSource.setMaxActive(Integer.parseInt(jdbcInfo.getProperty("maxActive")));
+            dataSource.setMinIdle(Integer.parseInt(jdbcInfo.getProperty("minIdle")));
+            dataSource.setMaxWait(Long.parseLong(jdbcInfo.getProperty("maxWait")));
+            dataSource.setPoolPreparedStatements(Boolean.parseBoolean(jdbcInfo.getProperty("poolPreparedStatements")));
+            dataSource.setMaxOpenPreparedStatements(Integer.parseInt(jdbcInfo.getProperty("maxOpenPreparedStatements")));
+            dataSource.setValidationQuery(jdbcInfo.getProperty("validationQuery"));
+            dataSource.setTestOnBorrow(Boolean.parseBoolean(jdbcInfo.getProperty("testOnBorrow")));
+            dataSource.setTestOnReturn(Boolean.parseBoolean(jdbcInfo.getProperty("testOnReturn")));
+            dataSource.setTestWhileIdle(Boolean.parseBoolean(jdbcInfo.getProperty("testWhileIdle")));
+            dataSource.setTimeBetweenConnectErrorMillis(Long.parseLong(jdbcInfo.getProperty("timeBetweenEvictionRunsMillis")));
         } catch (Exception e) {
             logger.error("获取数据源操失败:", e);
         }
+    }
+
+    @Test
+    public void testConn(){
+        Connection connection = JDBCUtil.getConnection();
+        System.out.println(connection);
     }
 
 

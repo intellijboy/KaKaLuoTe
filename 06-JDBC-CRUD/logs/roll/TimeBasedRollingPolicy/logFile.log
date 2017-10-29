@@ -1,0 +1,8 @@
+16:25:12.613 [main] DEBUG TestMyUtil - ======debug0
+16:25:12.617 [main] INFO  TestMyUtil - ======info0
+16:25:12.617 [main] WARN  TestMyUtil - ======warn0
+16:25:12.617 [main] ERROR TestMyUtil - ======error0
+16:25:12.618 [main] DEBUG TestMyUtil - ======debug1
+16:25:12.618 [main] INFO  TestMyUtil - ======info1
+16:25:12.618 [main] WARN  TestMyUtil - ======warn1
+16:25:12.618 [main] ERROR TestMyUtil - ======error1
