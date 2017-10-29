@@ -9,7 +9,7 @@ import java.util.Date;
  */
 @Alias("highStudent")
 public class Student {
-    private Integer stuNo;
+    private String stuNo;
     private String name;
     private String password;
     private Date birthday;
@@ -19,16 +19,16 @@ public class Student {
     public Student() {
     }
 
-    public Student(Integer stuNo, String name) {
+    public Student(String stuNo, String name) {
         this.stuNo = stuNo;
         this.name = name;
     }
 
-    public Integer getStuNo() {
+    public String getStuNo() {
         return stuNo;
     }
 
-    public void setStuNo(Integer stuNo) {
+    public void setStuNo(String stuNo) {
         this.stuNo = stuNo;
     }
 

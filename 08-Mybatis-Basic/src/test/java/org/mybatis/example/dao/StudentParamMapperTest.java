@@ -141,8 +141,8 @@ public class StudentParamMapperTest {
         Student student = new Student();
         student.setSex(1);
         List<Student> studentList = new ArrayList<>();
-        studentList.add(new Student(101,"zhangsan"));
-        studentList.add(new Student(102,"lisi"));
+        studentList.add(new Student("101","zhangsan"));
+        studentList.add(new Student("102","lisi"));
 
 
         Map<String,Object> paramMap = new HashMap<>();

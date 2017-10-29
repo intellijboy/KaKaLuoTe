@@ -8,7 +8,6 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>08-Mybatis-Basic</artifactId>
 
     <dependencies>
@@ -27,6 +26,14 @@
             <artifactId>mybatis</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
+        <!--集成ecache-->
+        <!-- https://mvnrepository.com/artifact/org.mybatis.caches/mybatis-ehcache -->
+        <dependency>
+            <groupId>org.mybatis.caches</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
@@ -69,6 +76,14 @@
             <version>${logback.version}</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.ylzinfo</groupId>
+            <artifactId>eva-portal-api</artifactId>
+            <version>3.0.2-SNAPSHOT</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -77,6 +92,21 @@
 
         </plugins>
     </build>
+   <!-- <repositories>
+        <repository>
+            <id>ylzinfo-public</id>
+            <name>易联众公共库</name>
+            <url>http://192.168.22.97:8081/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>-->
 
 
 </project>

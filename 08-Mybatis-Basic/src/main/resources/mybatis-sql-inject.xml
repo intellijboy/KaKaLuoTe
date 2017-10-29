@@ -11,7 +11,7 @@
         <!--3.开启驼峰命名规则 create_time==createTime-->
         <setting name="mapUnderscoreToCamelCase" value="true"></setting>
         <!--4.SQL日志打印-->
-      <!--  <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
     </settings>
 
     <typeAliases>

@@ -48,13 +48,11 @@ public class TestPKInsert {
         this.sqlSession = sqlSessionFactory.openSession();
         StudentMapper studentMapper = this.sqlSession.getMapper(StudentMapper.class);
         Student student = new Student();
-        student.setName("大圣");
+        student.setName("大圣3");
         student.setAge(18);
         student.setSex(1);
         int i = studentMapper.insertStudent(student);
-        System.out.println(i);
-        System.out.println(student);
-        System.out.println("我知道你是世界上最好的人我知道你是世上儿".length());
+        this.sqlSession.commit();
     }
 
 }

@@ -5,58 +5,76 @@
 <!--namespace 需要和接口所在的全类名保持一致-->
 <mapper namespace="org.mybatis.example.dao.StudentMapper">
 
-<!--
-    <resultMap type="org.mybatis.example.bean.Student" id="mysql_result_base">
-        <id column="stuId" property="stuNo"/>
-        <result column="name" property="name"/>
-        <result column="sex" property="sex"/>
-        <result column="age" property="age"/>
-    </resultMap>
+    <!--
+        <resultMap type="org.mybatis.example.bean.Student" id="mysql_result_base">
+            <id column="stuId" property="stuNo"/>
+            <result column="name" property="name"/>
+            <result column="sex" property="sex"/>
+            <result column="age" property="age"/>
+        </resultMap>
 
-    <resultMap type="org.mybatis.example.bean.Student" id="oracle_result_base">
-        <id column="STUNO" property="stuNo"/>
-        <result column="NAME" property="name"/>
-        <result column="SEX" property="sex"/>
-        <result column="AGE" property="age"/>
-    </resultMap>
--->
+        <resultMap type="org.mybatis.example.bean.Student" id="oracle_result_base">
+            <id column="STUNO" property="stuNo"/>
+            <result column="NAME" property="name"/>
+            <result column="SEX" property="sex"/>
+            <result column="AGE" property="age"/>
+        </resultMap>
+    -->
 
 
-    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="mysql" useGeneratedKeys="true" keyProperty="stuNo">
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="mysql"
+            useGeneratedKeys="true" keyProperty="stuNo">
         insert into student(stuId,name,age,sex)
         values(#{stuNo},#{name},#{age},#{sex})
     </insert>
 
-<!--
-    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle">
-        insert into student(STU_NO,NAME,AGE,SEX)
-        values(#{stuNo},#{name},#{age},#{sex})
-    </insert>
--->
+    <!--
+        <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle">
+            insert into student(STU_NO,NAME,AGE,SEX)
+            values(#{stuNo},#{name},#{age},#{sex})
+        </insert>
+    -->
 
-<!--
-    该方法报错
-    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle" useGeneratedKeys="true" keyProperty="stuNo">
-        insert into student(STU_NO,NAME,AGE,SEX)
-        values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
-    </insert>
--->
+    <!--
+        该方法报错
+        <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle" useGeneratedKeys="true" keyProperty="stuNo">
+            insert into student(STU_NO,NAME,AGE,SEX)
+            values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
+        </insert>
+    -->
 
 
-    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student" databaseId="oracle" useGeneratedKeys="true" keyProperty="stuNo">
-        <selectKey keyProperty="stuNo" order="BEFORE" resultType="Integer">
-            <!-- 编写查询主键的sql语句 -->
-            <!-- AFTER:select EMP_SEQUENCE.currval from dual-->
-            <!-- BEFORE：-->
-             select EMP_SEQUENCE.nextval from dual
-        </selectKey>
+    <insert id="insertStudent" parameterType="org.mybatis.example.bean.Student">
+        <!-- 获取插入主键方法1 -->
+
         <!--
-        insert into student(STU_NO,NAME,AGE,SEX)
-        values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
+                <selectKey keyProperty="stuNo" order="BEFORE" resultType="Integer">
+                     select EMP_SEQUENCE.nextval from dual
+                </selectKey>
+                insert into student(STU_NO,NAME,AGE,SEX)
+                values(#{stuNo},#{name},#{age},#{sex})
         -->
-        insert into student(STU_NO,NAME,AGE,SEX)
-        values(#{stuNo},#{name},#{age},#{sex})
 
+        <!-- 获取插入主键方法2-->
+
+        <!--
+                <selectKey keyProperty="stuNo" order="AFTER" resultType="Integer">
+                    select EMP_SEQUENCE.currval from dual
+                </selectKey>
+                insert into student(STU_NO,NAME,AGE,SEX)
+                values(EMP_SEQUENCE.nextval,#{name},#{age},#{sex})
+        -->
+        <bind name="studentKey" value='@java.util.UUID@randomUUID().toString().replace("-", "")'/>
+
+        <selectKey keyProperty="stuNo" order="AFTER" resultType="String">
+            SELECT stu_no from student where name=#{name}
+        </selectKey>
+        insert into student(STU_NO,NAME,AGE,SEX)
+        values(#{studentKey},CONCAT(#{name},#{_databaseId}),#{age},#{sex})
+    </insert>
+
+    <insert id="updateStudent" parameterType="org.mybatis.example.bean.Student" >
+        UPDATE student SET name=#{name} WHERE stu_no = #{stuNo}
     </insert>
 
 

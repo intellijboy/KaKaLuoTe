@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by liuburu on 2017/6/8.
  */
-public class Employ implements Serializable {
+public class Employ implements Serializable{
     private Integer empno;
     private String ename;
     private String job;

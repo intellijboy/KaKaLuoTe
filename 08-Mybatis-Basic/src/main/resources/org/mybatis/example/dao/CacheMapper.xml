@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--测试mybatis缓存-->
+<mapper namespace="org.mybatis.example.dao.CacheMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+<!--
+    <cache-ref namespace="org.mybatis.example.dao.ShareMapper"></cache-ref>
+-->
+    <!--
+    默认开启以及缓存
+    清空以及缓存的方法：1.查询select语句上flushCache=true
+                        2.update、delete操作之后
+    -->
+    <select id="selectEmploy" resultType="org.mybatis.example.bean.Employ" >
+        select * from emp where empno = #{empno}
+    </select>
+
+    <insert id="updateStudent" parameterType="org.mybatis.example.bean.Student" >
+        UPDATE student SET name=#{name} WHERE stu_no = #{stuNo}
+    </insert>
+
+
+    <insert id="updateEmploy" parameterType="org.mybatis.example.bean.Employ" >
+        UPDATE emp SET ename=#{ename} WHERE empno = #{empno}
+    </insert>
+
+</mapper>

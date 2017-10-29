@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--开启Mybaits的SQL日志打印-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <typeAliases>
+        <!--
+        配置文件中配置为package的时候， 会调用此方法，根据配置的报名去扫描javabean ，然后自动注册别名
+        默认会使用 Bean 的首字母小写或者大写的非限定类名来作为它的别名
+        也可在javabean 加上注解@Alias 来自定义别名， 例如： @Alias(user)
+        -->
+    </typeAliases>
+</configuration>

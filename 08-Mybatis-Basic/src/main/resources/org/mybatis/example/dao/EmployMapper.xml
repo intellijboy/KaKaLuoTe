@@ -9,7 +9,7 @@
         select * from emp where empno = #{empno}
     </select>
 -->
-    <select id="selectEmploy" resultType="Employ">
+    <select id="selectEmploy" resultType="org.mybatis.example.bean.Employ">
         select * from emp where empno = #{empno}
     </select>
 

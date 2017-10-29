@@ -7,23 +7,20 @@ package nouse;
  * @create 2017/08/09
  **/
 public abstract class UserServiceAdaptor implements UserService {
-    @Override
-    public int insert() {
+
+    public abstract int insert();
+
+    public abstract int delete();
+
+    public int query(){
         return 0;
     }
 
-    @Override
-    public int delete() {
+    public int update(){
         return 0;
     }
 
-    @Override
-    public int query() {
-        return 0;
-    }
 
-    @Override
-    public int update() {
-        return 0;
-    }
+
+
 }

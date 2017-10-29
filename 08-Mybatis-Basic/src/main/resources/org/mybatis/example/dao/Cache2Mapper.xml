@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--测试mybatis缓存-->
+<mapper namespace="org.mybatis.example.dao.Cache2Mapper">
+    <!--
+    eviction:默认LRU。回收策略
+    flushInterval:默认不设置。刷新缓存间隔
+    size:默认1024。缓存对象数目
+    readOnly:默认false。是否为只读缓存
+    -->
+<!--
+    <cache eviction="LRU" flushInterval="60000" size="1024" readOnly="false"></cache>
+-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"></cache>
+<!--
+    <cache-ref namespace="org.mybatis.example.dao.ShareMapper"></cache-ref>
+-->
+
+    <!--mybatis二级缓存测试-->
+    <select id="selectEmploy" resultType="org.mybatis.example.bean.Employ">
+        select * from emp where empno = #{empno}
+    </select>
+
+
+</mapper>

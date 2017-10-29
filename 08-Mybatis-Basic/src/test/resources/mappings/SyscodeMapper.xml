@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ylzinfo.framework.sys.dao.SyscodeMapper">
+    <resultMap id="BaseResultMap" type="com.ylzinfo.framework.sys.domain.Syscode">
+        <id column="CODETYPE" jdbcType="VARCHAR" property="codetype"/>
+        <id column="CODEVALUE" jdbcType="VARCHAR" property="codevalue"/>
+        <result column="CODEMEAN" jdbcType="VARCHAR" property="codemean"/>
+        <result column="CODENAME" jdbcType="VARCHAR" property="codename"/>
+        <result column="ORDERNO" jdbcType="DECIMAL" property="orderno"/>
+        <result column="AVAILABLE" jdbcType="VARCHAR" property="available"/>
+        <result column="PARENTID" jdbcType="VARCHAR" property="parentid"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		CODETYPE, CODEVALUE, CODEMEAN, CODENAME, ORDERNO, AVAILABLE, PARENTID
+	</sql>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYSCODE
+        where CODETYPE = #{codetype,jdbcType=VARCHAR}
+        and CODEVALUE = #{codevalue,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYSCODE
+        order by codetype,nvl(orderno,0),codevalue
+    </select>
+
+    <select id="query" parameterType="com.ylzinfo.framework.sys.domain.Syscode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from SYSCODE
+        <where>
+            <if test="codetype != null and codetype!=''">
+                and CODETYPE like CONCAT(CONCAT('%',#{codetype}),'%')
+            </if>
+            <if test="codemean != null and codemean!=''">
+                and CODEMEAN like CONCAT(CONCAT('%',#{codemean}),'%')
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="com.ylzinfo.framework.sys.domain.Syscode">
+		delete from SYSCODE
+		where CODETYPE = #{codetype,jdbcType=VARCHAR}
+		and CODEVALUE = #{codevalue,jdbcType=VARCHAR}
+	</delete>
+    <insert id="insert" parameterType="com.ylzinfo.framework.sys.domain.Syscode">
+		insert into SYSCODE (CODETYPE, CODEVALUE, CODEMEAN,
+		CODENAME, ORDERNO, AVAILABLE, PARENTID
+		)
+		values (#{codetype,jdbcType=VARCHAR}, #{codevalue,jdbcType=VARCHAR},
+		#{codemean,jdbcType=VARCHAR},
+		#{codename,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{available,jdbcType=VARCHAR},
+		#{parentid,jdbcType=VARCHAR}
+		)
+	</insert>
+    <update id="updateByPrimaryKey" parameterType="com.ylzinfo.framework.sys.domain.Syscode">
+		update SYSCODE
+		set CODEMEAN = #{codemean,jdbcType=VARCHAR},
+		CODENAME = #{codename,jdbcType=VARCHAR},
+		ORDERNO = #{orderno,jdbcType=DECIMAL},
+		AVAILABLE= #{available,jdbcType=VARCHAR},
+		PARENTID=#{parentid,jdbcType=VARCHAR}
+		where CODETYPE = #{codetype,jdbcType=VARCHAR}
+		and CODEVALUE = #{codevalue,jdbcType=VARCHAR}
+	</update>
+</mapper>

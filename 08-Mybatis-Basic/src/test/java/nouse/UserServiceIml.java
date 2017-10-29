@@ -8,4 +8,13 @@ package nouse;
  **/
 public class UserServiceIml extends UserServiceAdaptor{
 
+    @Override
+    public int insert() {
+        return 0;
+    }
+
+    @Override
+    public int delete() {
+        return 0;
+    }
 }

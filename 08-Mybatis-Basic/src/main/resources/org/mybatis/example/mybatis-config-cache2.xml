@@ -12,6 +12,8 @@
         <setting name="mapUnderscoreToCamelCase" value="true"></setting>
         <!--4.SQL日志打印-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--5.开启二级缓存-->
+        <setting name="cacheEnabled" value="true"></setting>
     </settings>
 
     <typeAliases>
@@ -61,6 +63,8 @@
 -->
         <mapper resource="org\mybatis\example\dao\EmployMapper.xml"/>
         <mapper resource="org\mybatis\example\dao\StudentMapper.xml"/>
+        <mapper resource="org\mybatis\example\dao\Cache2Mapper.xml"/>
         <mapper resource="org\mybatis\example\dao\CacheMapper.xml"/>
+        <mapper resource="org\mybatis\example\dao\ShareMapper.xml"/>
     </mappers>
 </configuration>
