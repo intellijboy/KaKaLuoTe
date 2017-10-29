@@ -12,7 +12,16 @@ select DEFAULT_TABLESPACE,TEMPORARY_TABLESPACE from dba_users where username='LE
 --查看已经创建的表空间信息
 select * from dba_data_files
 --创建表空间，耗时3s
+--1)第一种方法
 create tablespace eva_zs datafile 'eva_zs.dbf' size 100m;
+--2)第一种方法
+create tablespace SGCJPT_EVA
+datafile 'SGCJPT_EVA_DBFILE.dbf'
+size 200M
+autoextend on
+next 50M
+maxsize unlimited
+
 --删除表空间以及其内容
 --(只是从数据库中删除，同时需要进入到第对磁盘文件进行删除：D:\APP\LIUBURU\PRODUCT\11.2.0\DBHOME_1\DATABASE\EVA_ZS.DBF)
  drop tablespace eva_zs including contents;
@@ -31,7 +40,10 @@ alter user eva_zs identified by eva_zs;
 --分配表空间
 alter user eva_zs default tablespace EVA_ZS;
 --为用户分配权限
+grant connect,resource,dba to scoot
 grant create session,create table,create view,create sequence,unlimited tablespace to eva_zs;
+grant create any procedure to eva_ywsl;
+grant execute any procedure to eva_ywsl;
 
 --查看表空间使用率
 SELECT TABLESPACE_NAME "表空间",

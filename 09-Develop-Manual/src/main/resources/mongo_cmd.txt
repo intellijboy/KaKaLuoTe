@@ -355,7 +355,7 @@ mongo admin -u root -p liuburu
 
 //管理员验证登陆，防范二
 mongo
-user admin
+use admin
 db.auth("root","liubru");
 
 
@@ -363,7 +363,24 @@ db.auth("root","liubru");
  	
 user col;
 use admin;
+db.createUser({
+    "user": "admin",
+    "pwd": "admin",
+    "roles": [
+        "root"
+    ]
+})
+use sso;
+db.student.insert({name:'4564'});
+db.createUser({
+    "user": "eva_sso",
+    "pwd": "eva_sso",
+    "roles": [
+        "readWrite"
+    ]
+})
 db.auth("root","liuburu");
+
 db.createUser( {
     "user": "hy",
     "pwd": "hy",
@@ -380,6 +397,17 @@ db.createUser( {
     "pwd": "eva_sso",
     "customData": {
         "message": "eva_sso用户"
+    },
+    "roles": [
+      "readWrite"
+    ]
+})
+
+db.createUser( {
+    "user": "sg_log",
+    "pwd": "sg_log",
+    "customData": {
+        "message": "sg_log用户负责管理登陆日志、访问日志、业务日志"
     },
     "roles": [
       "readWrite"
