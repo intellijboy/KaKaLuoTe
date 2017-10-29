@@ -13,7 +13,7 @@
     <name>03-UEditor-Module</name>
     <artifactId>03-UEditor-Module</artifactId>
 
-    <!--仓库地址-->
+    <!--仓库地址 -->
     <repositories>
        <!-- <repository>
             <id>maven-central</id>
