@@ -12,6 +12,7 @@
     <artifactId>07-Java8-Module</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
