@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxufe.dao.SysOrgMapper">
+  <resultMap id="BaseResultMap" type="com.jxufe.entity.SysOrg">
+    <id column="ORGID" jdbcType="VARCHAR" property="orgid" />
+    <result column="ORGNAME" jdbcType="VARCHAR" property="orgname" />
+    <result column="SHORTNAME" jdbcType="VARCHAR" property="shortname" />
+    <result column="ORGDESC" jdbcType="VARCHAR" property="orgdesc" />
+    <result column="PARENTID" jdbcType="VARCHAR" property="parentid" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="LEADER" jdbcType="VARCHAR" property="leader" />
+    <result column="LINKMAN" jdbcType="VARCHAR" property="linkman" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="ORGCODE" jdbcType="VARCHAR" property="orgcode" />
+    <result column="ORDERNO" jdbcType="DECIMAL" property="orderno" />
+    <result column="ORGSTATE" jdbcType="VARCHAR" property="orgstate" />
+    <result column="PARENTIDS" jdbcType="VARCHAR" property="parentids" />
+    <result column="ORGTYPE" jdbcType="VARCHAR" property="orgtype" />
+    <result column="QZH000" jdbcType="VARCHAR" property="qzh000" />
+    <result column="ZZLB00" jdbcType="VARCHAR" property="zzlb00" />
+    <result column="STREET" jdbcType="VARCHAR" property="street" />
+    <result column="RESIDENTSCOMMITTEE" jdbcType="VARCHAR" property="residentscommittee" />
+    <result column="ORGID01" jdbcType="VARCHAR" property="orgid01" />
+    <result column="ORGID02" jdbcType="VARCHAR" property="orgid02" />
+    <result column="ORGID03" jdbcType="VARCHAR" property="orgid03" />
+    <result column="PHONETICIZE" jdbcType="VARCHAR" property="phoneticize" />
+    <result column="FIVESTROKE" jdbcType="VARCHAR" property="fivestroke" />
+    <result column="SUBCENTERCODE" jdbcType="VARCHAR" property="subcentercode" />
+    <result column="ORGKIND" jdbcType="VARCHAR" property="orgkind" />
+    <result column="LASTEDITTIME" jdbcType="TIMESTAMP" property="lastedittime" />
+    <result column="DISTRICT" jdbcType="VARCHAR" property="district" />
+    <result column="ORGCODE01" jdbcType="VARCHAR" property="orgcode01" />
+    <result column="ORGCODE02" jdbcType="VARCHAR" property="orgcode02" />
+    <result column="ORGCODE03" jdbcType="VARCHAR" property="orgcode03" />
+    <result column="PREUSERNAME" jdbcType="VARCHAR" property="preusername" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ORGID, ORGNAME, SHORTNAME, ORGDESC, PARENTID, ADDRESS, LEADER, LINKMAN, TEL, ORGCODE, 
+    ORDERNO, ORGSTATE, PARENTIDS, ORGTYPE, QZH000, ZZLB00, STREET, RESIDENTSCOMMITTEE, 
+    ORGID01, ORGID02, ORGID03, PHONETICIZE, FIVESTROKE, SUBCENTERCODE, ORGKIND, LASTEDITTIME, 
+    DISTRICT, ORGCODE01, ORGCODE02, ORGCODE03, PREUSERNAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SYSORG
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from SYSORG
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.jxufe.entity.SysOrg">
+    insert into SYSORG (ORGID, ORGNAME, SHORTNAME, 
+      ORGDESC, PARENTID, ADDRESS, 
+      LEADER, LINKMAN, TEL, 
+      ORGCODE, ORDERNO, ORGSTATE, 
+      PARENTIDS, ORGTYPE, QZH000, 
+      ZZLB00, STREET, RESIDENTSCOMMITTEE, 
+      ORGID01, ORGID02, ORGID03, 
+      PHONETICIZE, FIVESTROKE, SUBCENTERCODE, 
+      ORGKIND, LASTEDITTIME, DISTRICT, 
+      ORGCODE01, ORGCODE02, ORGCODE03, 
+      PREUSERNAME)
+    values (#{orgid,jdbcType=VARCHAR}, #{orgname,jdbcType=VARCHAR}, #{shortname,jdbcType=VARCHAR}, 
+      #{orgdesc,jdbcType=VARCHAR}, #{parentid,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{leader,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{orgcode,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{orgstate,jdbcType=VARCHAR}, 
+      #{parentids,jdbcType=VARCHAR}, #{orgtype,jdbcType=VARCHAR}, #{qzh000,jdbcType=VARCHAR}, 
+      #{zzlb00,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{residentscommittee,jdbcType=VARCHAR}, 
+      #{orgid01,jdbcType=VARCHAR}, #{orgid02,jdbcType=VARCHAR}, #{orgid03,jdbcType=VARCHAR}, 
+      #{phoneticize,jdbcType=VARCHAR}, #{fivestroke,jdbcType=VARCHAR}, #{subcentercode,jdbcType=VARCHAR}, 
+      #{orgkind,jdbcType=VARCHAR}, #{lastedittime,jdbcType=TIMESTAMP}, #{district,jdbcType=VARCHAR}, 
+      #{orgcode01,jdbcType=VARCHAR}, #{orgcode02,jdbcType=VARCHAR}, #{orgcode03,jdbcType=VARCHAR}, 
+      #{preusername,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jxufe.entity.SysOrg">
+    insert into SYSORG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        ORGID,
+      </if>
+      <if test="orgname != null">
+        ORGNAME,
+      </if>
+      <if test="shortname != null">
+        SHORTNAME,
+      </if>
+      <if test="orgdesc != null">
+        ORGDESC,
+      </if>
+      <if test="parentid != null">
+        PARENTID,
+      </if>
+      <if test="address != null">
+        ADDRESS,
+      </if>
+      <if test="leader != null">
+        LEADER,
+      </if>
+      <if test="linkman != null">
+        LINKMAN,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="orgcode != null">
+        ORGCODE,
+      </if>
+      <if test="orderno != null">
+        ORDERNO,
+      </if>
+      <if test="orgstate != null">
+        ORGSTATE,
+      </if>
+      <if test="parentids != null">
+        PARENTIDS,
+      </if>
+      <if test="orgtype != null">
+        ORGTYPE,
+      </if>
+      <if test="qzh000 != null">
+        QZH000,
+      </if>
+      <if test="zzlb00 != null">
+        ZZLB00,
+      </if>
+      <if test="street != null">
+        STREET,
+      </if>
+      <if test="residentscommittee != null">
+        RESIDENTSCOMMITTEE,
+      </if>
+      <if test="orgid01 != null">
+        ORGID01,
+      </if>
+      <if test="orgid02 != null">
+        ORGID02,
+      </if>
+      <if test="orgid03 != null">
+        ORGID03,
+      </if>
+      <if test="phoneticize != null">
+        PHONETICIZE,
+      </if>
+      <if test="fivestroke != null">
+        FIVESTROKE,
+      </if>
+      <if test="subcentercode != null">
+        SUBCENTERCODE,
+      </if>
+      <if test="orgkind != null">
+        ORGKIND,
+      </if>
+      <if test="lastedittime != null">
+        LASTEDITTIME,
+      </if>
+      <if test="district != null">
+        DISTRICT,
+      </if>
+      <if test="orgcode01 != null">
+        ORGCODE01,
+      </if>
+      <if test="orgcode02 != null">
+        ORGCODE02,
+      </if>
+      <if test="orgcode03 != null">
+        ORGCODE03,
+      </if>
+      <if test="preusername != null">
+        PREUSERNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        #{orgid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgname != null">
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortname != null">
+        #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgdesc != null">
+        #{orgdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="leader != null">
+        #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode != null">
+        #{orgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="orgstate != null">
+        #{orgstate,jdbcType=VARCHAR},
+      </if>
+      <if test="parentids != null">
+        #{parentids,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null">
+        #{orgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="qzh000 != null">
+        #{qzh000,jdbcType=VARCHAR},
+      </if>
+      <if test="zzlb00 != null">
+        #{zzlb00,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="residentscommittee != null">
+        #{residentscommittee,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid01 != null">
+        #{orgid01,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid02 != null">
+        #{orgid02,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid03 != null">
+        #{orgid03,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneticize != null">
+        #{phoneticize,jdbcType=VARCHAR},
+      </if>
+      <if test="fivestroke != null">
+        #{fivestroke,jdbcType=VARCHAR},
+      </if>
+      <if test="subcentercode != null">
+        #{subcentercode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgkind != null">
+        #{orgkind,jdbcType=VARCHAR},
+      </if>
+      <if test="lastedittime != null">
+        #{lastedittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="district != null">
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode01 != null">
+        #{orgcode01,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode02 != null">
+        #{orgcode02,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode03 != null">
+        #{orgcode03,jdbcType=VARCHAR},
+      </if>
+      <if test="preusername != null">
+        #{preusername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jxufe.entity.SysOrg">
+    update SYSORG
+    <set>
+      <if test="orgname != null">
+        ORGNAME = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="shortname != null">
+        SHORTNAME = #{shortname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgdesc != null">
+        ORGDESC = #{orgdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null">
+        PARENTID = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="leader != null">
+        LEADER = #{leader,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null">
+        LINKMAN = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode != null">
+        ORGCODE = #{orgcode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="orgstate != null">
+        ORGSTATE = #{orgstate,jdbcType=VARCHAR},
+      </if>
+      <if test="parentids != null">
+        PARENTIDS = #{parentids,jdbcType=VARCHAR},
+      </if>
+      <if test="orgtype != null">
+        ORGTYPE = #{orgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="qzh000 != null">
+        QZH000 = #{qzh000,jdbcType=VARCHAR},
+      </if>
+      <if test="zzlb00 != null">
+        ZZLB00 = #{zzlb00,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null">
+        STREET = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="residentscommittee != null">
+        RESIDENTSCOMMITTEE = #{residentscommittee,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid01 != null">
+        ORGID01 = #{orgid01,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid02 != null">
+        ORGID02 = #{orgid02,jdbcType=VARCHAR},
+      </if>
+      <if test="orgid03 != null">
+        ORGID03 = #{orgid03,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneticize != null">
+        PHONETICIZE = #{phoneticize,jdbcType=VARCHAR},
+      </if>
+      <if test="fivestroke != null">
+        FIVESTROKE = #{fivestroke,jdbcType=VARCHAR},
+      </if>
+      <if test="subcentercode != null">
+        SUBCENTERCODE = #{subcentercode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgkind != null">
+        ORGKIND = #{orgkind,jdbcType=VARCHAR},
+      </if>
+      <if test="lastedittime != null">
+        LASTEDITTIME = #{lastedittime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="district != null">
+        DISTRICT = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode01 != null">
+        ORGCODE01 = #{orgcode01,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode02 != null">
+        ORGCODE02 = #{orgcode02,jdbcType=VARCHAR},
+      </if>
+      <if test="orgcode03 != null">
+        ORGCODE03 = #{orgcode03,jdbcType=VARCHAR},
+      </if>
+      <if test="preusername != null">
+        PREUSERNAME = #{preusername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jxufe.entity.SysOrg">
+    update SYSORG
+    set ORGNAME = #{orgname,jdbcType=VARCHAR},
+      SHORTNAME = #{shortname,jdbcType=VARCHAR},
+      ORGDESC = #{orgdesc,jdbcType=VARCHAR},
+      PARENTID = #{parentid,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      LEADER = #{leader,jdbcType=VARCHAR},
+      LINKMAN = #{linkman,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      ORGCODE = #{orgcode,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      ORGSTATE = #{orgstate,jdbcType=VARCHAR},
+      PARENTIDS = #{parentids,jdbcType=VARCHAR},
+      ORGTYPE = #{orgtype,jdbcType=VARCHAR},
+      QZH000 = #{qzh000,jdbcType=VARCHAR},
+      ZZLB00 = #{zzlb00,jdbcType=VARCHAR},
+      STREET = #{street,jdbcType=VARCHAR},
+      RESIDENTSCOMMITTEE = #{residentscommittee,jdbcType=VARCHAR},
+      ORGID01 = #{orgid01,jdbcType=VARCHAR},
+      ORGID02 = #{orgid02,jdbcType=VARCHAR},
+      ORGID03 = #{orgid03,jdbcType=VARCHAR},
+      PHONETICIZE = #{phoneticize,jdbcType=VARCHAR},
+      FIVESTROKE = #{fivestroke,jdbcType=VARCHAR},
+      SUBCENTERCODE = #{subcentercode,jdbcType=VARCHAR},
+      ORGKIND = #{orgkind,jdbcType=VARCHAR},
+      LASTEDITTIME = #{lastedittime,jdbcType=TIMESTAMP},
+      DISTRICT = #{district,jdbcType=VARCHAR},
+      ORGCODE01 = #{orgcode01,jdbcType=VARCHAR},
+      ORGCODE02 = #{orgcode02,jdbcType=VARCHAR},
+      ORGCODE03 = #{orgcode03,jdbcType=VARCHAR},
+      PREUSERNAME = #{preusername,jdbcType=VARCHAR}
+    where ORGID = #{orgid,jdbcType=VARCHAR}
+  </update>
+</mapper>

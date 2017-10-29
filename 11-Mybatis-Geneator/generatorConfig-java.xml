@@ -4,10 +4,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <!--导入属性配置-->
-    <properties resource="generator.properties"></properties>
     <!-- 驱动包路径！ -->
-    <classPathEntry location="${generator.driverLocation}"/>
+    <classPathEntry location="E:/repository/maven/com/oracle/ojdbc6/11.2.0.3/ojdbc6-11.2.0.3.jar"/>
 
     <!--
         生成的Modal类型：defaultModelType：[conditional,flat,hierarchical]
@@ -19,9 +17,9 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!-- jdbc url地址 ！ -->
-        <jdbcConnection driverClass="${generator.driverClass}"
-                        connectionURL="${generator.connectionURL}"
-                        userId="${generator.userId}" password="${generator.password}">
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:orcl"
+                        userId="eva_sso" password="eva_sso">
             <property name="remarksReporting" value="true"></property>
         </jdbcConnection>
 
@@ -35,7 +33,7 @@
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="${generator.entity.target}" targetProject="${generator.entity.url}">
+        <javaModelGenerator targetPackage="./src/main/java/" targetProject="com.jxufe.entity">
             <!-- 是否对model添加 构造函数 -->
             <property name="constructorBased" value="false"/>
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
@@ -47,26 +45,27 @@
         </javaModelGenerator>
 
         <!-- 生成映射文件的包名和位置-->
-        <sqlMapGenerator targetPackage="${generator.mapper.target}" targetProject="${generator.mapper.url}">
+        <sqlMapGenerator targetPackage="./src/main/resources" targetProject="mappers">
         </sqlMapGenerator>
 
         <!-- 生成DAO的包名和位置
                 type="ANNOTATEDMAPPER",生成Java Model 和基于注解@InsertProvider的Mapper对象
                 type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="${generator.dao.target}"
-                             targetProject="${generator.dao.url}">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="./src/main/java/"
+                             targetProject="com.jxufe.dao">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
         <!--  表配置    tableName 表名      domainObjectName java类名，首字母必须大写，否则报字符串越界错误 -->
-        <table tableName="SYSORG" domainObjectName="SysOrg"
+        <table tableName="SYSUSER" domainObjectName="SysUser"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+
     </context>
 
 </generatorConfiguration>
