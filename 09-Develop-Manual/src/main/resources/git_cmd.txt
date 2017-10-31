@@ -10,13 +10,12 @@
 
 6.git log -pretty=online 版本格式显示
 
-7.git reset --hard head~1 回退到上一个版本
+7.git reset --hard head~1    回退到上一个版本
+  git reset --hard  e9a40a4  回退到指定的版本
 
-  git reset 撤销提交
+8.  git reset 撤销提交
 
-8.git reflog   显示可以穿梭的历史版本信息,以及简写版本信息
-
-9.git reset --hard  e9a40a4  回退到指定的版本
+9.git reflog   显示可以穿梭的历史版本信息,以及简写版本信息
 
 10.git diff head Hello.java 与前一个版本作比较
 

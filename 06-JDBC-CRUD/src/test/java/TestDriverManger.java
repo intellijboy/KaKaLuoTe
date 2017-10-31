@@ -21,4 +21,11 @@ public class TestDriverManger {
         System.out.println(orclConnection);
         System.out.println(msqlConnection);
     }
+
+    @Test
+    public void testSystemout(){
+        System.out.println("System Out 输出");
+        System.err.println("System Out 输出");
+        System.out.println("System Out 输出");
+    }
 }
