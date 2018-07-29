@@ -31,13 +31,23 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        //1. 把 AuthenticationToken 转换为 UsernamePasswordToken
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
+        //2. 从 UsernamePasswordToken 中来获取 username
         String username = usernamePasswordToken.getUsername();
+        //3. 调用数据库的方法, 从数据库中查询 username 对应的用户记录
         //credentical为数据库中的SHA1加密密码
         SecUser secUser = secUserService.queryByUserName(username);
         Object credentials = secUser.getPassword();
+        //4. 若用户不存在, 则可以抛出 UnknownAccountException 异常
+        if(secUser==null){
+            throw new UnknownAccountException("用户不存在!");
+        }
         String realName = getName();
         ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+        //6. 根据用户的情况, 来构建 AuthenticationInfo 对象并返回. 通常使用的实现类为: SimpleAuthenticationInfo
+        //1). principal: 认证的实体信息. 可以是 username, 也可以是数据表对应的用户的实体类对象.
+        //2). credentials: 密码.
         AuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(secUser,credentials,credentialsSalt,realName);
         return authenticationInfo;
     }
